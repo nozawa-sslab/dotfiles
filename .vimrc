@@ -72,3 +72,4 @@ if has('persistent_undo')
 endif
 
 set background=dark
+colorscheme iceberg
