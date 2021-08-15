@@ -8,42 +8,7 @@ repo = 'mattn/vim-maketable'
 on_ft = ['md']
 
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
+repo = 'neoclide/coc.nvim'
 on_i = 1
-
-[[plugins]]
-repo = 'lighttiger2505/deoplete-vim-lsp'
-on_i = 1
-
-[[plugins]]
-repo = 'vim-scripts/dbext.vim'
-on_ft = ['sql']
-
-[[plugins]]
-repo = 'angloss/vim-javascript'
-on_ft = ['javascript', 'javascriptreact', 'typescript']
-
-#[[plugins]]
-#repo = 'othree/yajs.vim'
-#on_ft = ['javascript', 'javascriptreact', 'typescript']
-
-#[[plugins]]
-#repo = 'othree/es.next.syntax.vim'
-#on_ft = ['javascript', 'javascriptreact']
-
-[[plugins]]
-repo = 'othree/javascript-libraries-syntax.vim'
-on_ft = ['javascript', 'javascriptreact']
-
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-on_ft = ['typescript', 'typescriptreact']
-
-[[plugins]]
-repo = 'peitalin/vim-jsx-typescript'
-on_ft = ['typescriptreact']
-
-[[plugins]]
-repo = 'MaxMEllon/vim-jsx-pretty'
-on_ft = ['javascript', 'javascriptreact']
-
+branch = 'release'
+#hook_add = 'source ~/.config/nvim/init/coc.init.vim'

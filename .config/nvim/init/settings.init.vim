@@ -1,12 +1,14 @@
 " 全角文字専用の設定
-set ambiwidth=double
+"set ambiwidth=double
 " Tabによるコマンド補完の候補をステータスラインに表示
 set wildmenu
 " backspaceを効かせる
 set backspace=indent,eol,start
 " <leader> == space key
 let mapleader = "\<Space>"
-"-----------------------
+
+set clipboard+=unnamedplus
+"-----------------------"
 " 検索
 "-----------------------
 " 大文字小文字の区別なし
@@ -28,6 +30,8 @@ set cursorline
 set smartindent
 " 下のステータスラインを常に表示 
 set laststatus=2
+
+set noexpandtab
 " インデント幅
 set shiftwidth=4
 " tab幅

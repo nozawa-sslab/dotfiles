@@ -41,13 +41,4 @@ repo = 'cocopon/iceberg.vim'
 repo = 'arcticicestudio/nord-vim'
 
 [[plugins]]
-repo = 'w0rp/ale'
-
-[[plugins]]
 repo = 'altercation/vim-colors-solarized'
-
-[[plugins]]
-repo = 'prabirshrestha/vim-lsp'
-
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
