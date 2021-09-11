@@ -6,7 +6,9 @@ set wildmenu
 set backspace=indent,eol,start
 " <leader> == space key
 let mapleader = "\<Space>"
-"-----------------------
+
+set clipboard+=unnamedplus
+"-----------------------"
 " 検索
 "-----------------------
 " 大文字小文字の区別なし
@@ -28,6 +30,8 @@ set cursorline
 set smartindent
 " 下のステータスラインを常に表示 
 set laststatus=2
+
+set noexpandtab
 " インデント幅
 set shiftwidth=4
 " tab幅
@@ -39,7 +43,7 @@ hi Search ctermbg=34
 " マウスカーソルで移動できるように
 set mouse=a
 " Escの2回押しでハイライト消去
-nnoremap <Esc><Esc> :nohlsearch<CR>
+nnoremap <Esc><Esc> :noh<CR>
 " parentheses match
 set showmatch
 " 行末移動
@@ -70,6 +74,3 @@ if has('persistent_undo')
 	exe 'set undodir=' .. undo_path
 	set undofile
 endif
-
-set background=dark
-colorscheme iceberg
