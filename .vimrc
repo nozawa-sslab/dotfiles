@@ -18,6 +18,7 @@ set hlsearch
 "-----------------------
 " 表示設定
 "-----------------------
+colorscheme iceberg
 " 音消す
 set noerrorbells
 set vb t_vb=
