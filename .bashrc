@@ -15,6 +15,12 @@ fi
 export TZ=Asia/Tokyo
 #export PROMPT_COMMAND="echo -n \[\$(date +%H:%M:%S)\]\ "
 
-export PS1='\n \[\e[1;38;5;69m\]\w\[\e[0m\] \u@\h \n\[\e[38;5;4m\][\T]\[\e[0m\] \$ '
+export PS1='\n\[\e[1;38;5;69m\]\w\[\e[0m\] \n\[\e[38;5;4m\][\t]\[\e[0m\] \u@\h \$ '
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/home/nozawa/.local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+eval "$(zoxide init bash)"
+eval "$(starship init bash)"
+
