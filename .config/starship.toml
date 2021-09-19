@@ -9,7 +9,7 @@ style = "bold #fd9bac"
 [time]
 disabled = false
 format = '[\[$time\]](#cddfff) '
-tine_format = "%T"
+time_format = "%T"
 utc_time_offset = "+9"
 
 [cmd_duration]
@@ -20,3 +20,6 @@ disabled = true
 
 [perl]
 disabled = true
+
+[python]
+python_binary = "python3"
