@@ -13,8 +13,6 @@ alias ctags="`brew --prefix`/bin/ctags"
 alias fbat='fzf --preview "bat  --color=always --style=header,grid --line-range :100 {}"'
 alias vstar='nvim ~/.config/starship.toml'
 alias chrome='open -a "google chrome"'
-alias gcc='/usr/local/bin/gcc-11'
-alias g++='/usr/local/bin/g++-11'
 alias clip='(){cat $1 | pbcopy}'
 
 # Neovim
