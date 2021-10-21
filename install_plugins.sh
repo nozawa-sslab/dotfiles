@@ -5,9 +5,9 @@ if [ ! -e ~/.vim/pack/vendor/start ]; then
 fi
 
 if [ ! -e  ~/.vim/pack/vendor/start/auto-pairs ]; then
-	git clone https://github.com/jiangmiao/auto-pairs.git
+	git clone https://github.com/jiangmiao/auto-pairs.git ~/.vim/pack/vendor/start
 fi
 
 if [ ! -e  ~/.vim/pack/vendor/start/iceberg.vim ]; then
-	git clone https://github.com/cocopon/iceberg.vim.git
+	git clone https://github.com/cocopon/iceberg.vim.git ~/.vim/pack/vendor/start
 fi
