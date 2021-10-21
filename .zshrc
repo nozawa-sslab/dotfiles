@@ -7,6 +7,8 @@ autoload -Uz compinit && compinit
 export TERM=xterm-256color
 export JULIA_DIR="/Applications/Julia-1.6.app/Contents/Resources/Julia"
 export PATH="$JULIA_DIR/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="/home/nozawa/.local/bin:$PATH"
 
 export CPATH="/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
 
@@ -23,26 +25,17 @@ fi
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+FPATH=~/.zsh/plug/zsh-completions:$FPATH
 
-    autoload -Uz compinit
-    compinit
-fi
-
-if test -d ~/.zsh/plug/zsh-syntax-highlighting; then
-	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/plug/zsh-syntax-highlighting
-	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if test -d ~/.zsh/plug/zsh-autosuggestions; then
-	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plug/zsh-autosuggestions
-	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
+source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

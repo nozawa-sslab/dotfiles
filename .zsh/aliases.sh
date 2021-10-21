@@ -9,7 +9,6 @@ alias ps='ps -j'
 alias zrc='nvim ~/.zshrc'
 alias vrc='nvim ~/.vimrc'
 alias rel='exec $SHELL -l'
-alias ctags="`brew --prefix`/bin/ctags"
 alias fbat='fzf --preview "bat  --color=always --style=header,grid --line-range :100 {}"'
 alias vstar='nvim ~/.config/starship.toml'
 alias chrome='open -a "google chrome"'
