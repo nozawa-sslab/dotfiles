@@ -4,7 +4,6 @@ if type "zsh" > /dev/null 2>&1; then
 else
 	sudo apt-get install zsh
 	touch ~/.zshrc
-	echo "Enter following command:\n\tchsh -s \$\(which zsh\)"
 fi
 
 # zsh plugins
@@ -86,3 +85,5 @@ else
 	npm install -g yarn
 	yarn --cwd ~/.config/nvim/dein/repos/github.com/neoclide/coc.nvim install
 fi
+
+echo "Enter following command:\n\n\tchsh -s \$\(which zsh\)\n\n"
