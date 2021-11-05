@@ -1,6 +1,7 @@
 setopt no_beep
 
 source ~/.zsh/aliases.sh
+source $HOME/.cargo/env
 
 autoload -Uz compinit && compinit
 
@@ -44,5 +45,9 @@ else
 	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
+source ~/.zsh/functions.sh
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
