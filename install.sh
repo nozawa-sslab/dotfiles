@@ -86,4 +86,29 @@ else
 	yarn --cwd ~/.config/nvim/dein/repos/github.com/neoclide/coc.nvim install
 fi
 
-echo "Enter following command:\n\n\tchsh -s \$\(which zsh\)\n\n"
+# fzf
+if type "fzf" > /dev/null 2>&1; then
+	echo "fzf does exist!"
+else
+	echo "fzf does not exist!"
+	sudo apt-get install fzf
+fi
+
+# bat
+if type "bat" > /dev/null 2>&1; then
+	echo "bat does exist!"
+else
+	echo "bat does not exist!"
+	sudo apt install bat
+fi
+
+# rip-grep
+if type "rg" > /dev/null 2>&1; then
+	echo "ripgrep does exist!"
+else
+	echo "ripgrep does not exist!"
+	sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+fi
+
+echo "Finished installation!!\n"
+echo "Enter following command and start a new terminal session:\n\n\tchsh -s \$(which zsh)\n\n"
