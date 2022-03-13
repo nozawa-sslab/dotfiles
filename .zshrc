@@ -11,15 +11,109 @@ export PATH="$JULIA_DIR/bin:$PATH"
 
 export CPATH="/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
 
-#export EDITOR="nvim"
-bindkey \^U backward-kill-line
+export EDITOR="/usr/local/bin/nvim"
 
+# To check key seq, push key after Ctrl-v 
+bindkey "^U" backward-kill-line
+bindkey "^u" backward-kill-line
+bindkey "^[f" forward-word
+bindkey "^[b" backward-word
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
 
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+#########
+#  FZF  *
+#########
 if type "fzf" > /dev/null 2>&1; then
 	export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 	export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-	export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+	export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
 fi
+
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+
+# fshow_preview - git commit browser with previews
+fshow_preview() {
+    glNoGraph |
+        fzf --no-sort --reverse --tiebreak=index --no-multi \
+            --ansi --preview="$_viewGitLogLine" \
+                --header "enter to view, ctrl-w to copy hash" \
+                --bind "enter:execute:$_viewGitLogLine   | less -R" \
+                --bind "ctrl-w:execute:$_gitLogLineToHash | pbcopy" \
+				--height 100% \
+				--border
+}
+
+#############
+#  enhancd  *
+#############
+source $HOME/oss/enhancd/init.sh
+export ENHANCD_FILTER=fzf
+
+
+#########
+#  NNN  *
+#########
+export NNN_BMS="h:$HOME"
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_PLUG='1:ipinfo;p:preview-tui;o:fzz;b:nbak'
+n ()
+{
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, either remove the "export" as in:
+    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
+    # or, export NNN_TMPFILE after nnn invocation
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
+
+nnn_cd()                                                                                                   
+{
+    if ! [ -z "$NNN_PIPE" ]; then
+        printf "%s\0" "0c${PWD}" > "${NNN_PIPE}" !&
+    fi  
+}
+
+trap nnn_cd EXIT
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
@@ -33,15 +127,9 @@ fi
 
 if test -d ~/.zsh/plug/zsh-syntax-highlighting; then
 	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/plug/zsh-syntax-highlighting
-	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 if test -d ~/.zsh/plug/zsh-autosuggestions; then
-	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plug/zsh-autosuggestions
 	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
@@ -49,5 +137,6 @@ source ~/.zsh/functions.sh
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(pyenv init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
