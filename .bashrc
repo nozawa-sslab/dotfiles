@@ -24,3 +24,4 @@ export PATH="/home/nozawa/.local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/n
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
 
+. "$HOME/.cargo/env"

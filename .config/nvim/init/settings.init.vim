@@ -8,6 +8,14 @@ set backspace=indent,eol,start
 let mapleader = "\<Space>"
 
 set clipboard+=unnamedplus
+" remap Esc
+:imap jj <Esc>
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 "-----------------------"
 " 検索
 "-----------------------
@@ -49,6 +57,8 @@ set showmatch
 " 行末移動
 noremap -1 $
 
+set noswapfile
+
 "----------------------------------------------------------
 " クリップボードからのペースト
 "----------------------------------------------------------
@@ -74,3 +84,9 @@ if has('persistent_undo')
 	exe 'set undodir=' .. undo_path
 	set undofile
 endif
+
+
+"-------------------
+" cd to the directory of opening file for the current window
+"-------------------
+noremap <leader>cd :cd %:p:h<CR>:pwd<CR>
