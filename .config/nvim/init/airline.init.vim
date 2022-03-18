@@ -15,3 +15,9 @@ let g:webdevicons_enable_airline_tabline = 0
 " vim-airline : switch buffer with <C-p> and <C-n> (prev, next)
 nnoremap <C-p> :bp<CR>
 nnoremap <C-n> :bn<CR>
+
+" battery
+"let g:airline#extensions#battery#enabled = 1
+
+" clock
+let g:airline_section_b = '%{battery#component()} %{strftime("%H:%M")}'

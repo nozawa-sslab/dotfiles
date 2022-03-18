@@ -8,6 +8,16 @@ set backspace=indent,eol,start
 let mapleader = "\<Space>"
 
 set clipboard+=unnamedplus
+
+set noswapfile
+
+:imap jj <Esc>
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 "-----------------------"
 " 検索
 "-----------------------
@@ -24,8 +34,6 @@ set vb t_vb=
 " 相対行番号
 set relativenumber
 set nu
-" カーソルがある行を明示
-set cursorline
 " インデント
 set smartindent
 " 下のステータスラインを常に表示 
@@ -43,7 +51,7 @@ hi Search ctermbg=34
 " マウスカーソルで移動できるように
 set mouse=a
 " Escの2回押しでハイライト消去
-nnoremap <Esc><Esc> :nohlsearch<CR>
+nnoremap <Esc><Esc> :noh<CR>
 " parentheses match
 set showmatch
 " 行末移動
@@ -74,3 +82,8 @@ if has('persistent_undo')
 	exe 'set undodir=' .. undo_path
 	set undofile
 endif
+
+"-------------------
+" cd to the directory of opening file for the current window
+"-------------------
+noremap <leader>cd :cd %:p:h<CR>:pwd<CR>
