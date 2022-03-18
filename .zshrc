@@ -35,11 +35,16 @@ if type "fzf" > /dev/null 2>&1; then
 	export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
 fi
 
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+
+
 # fshow - git commit browser
 fshow() {
   git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview="$_viewGitLogLine" \
       --bind "ctrl-m:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
@@ -47,10 +52,6 @@ fshow() {
 FZF-EOF"
 }
 
-
-alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
 
 # fshow_preview - git commit browser with previews
 fshow_preview() {
