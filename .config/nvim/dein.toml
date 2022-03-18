@@ -42,3 +42,26 @@ repo = 'arcticicestudio/nord-vim'
 
 [[plugins]]
 repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+branch = 'release'
+#hook_add = 'source ~/.config/nvim/init/coc.init.vim'
+
+[[plugins]]
+repo = 'JuliaEditorSupport/julia-vim'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'mcchrish/nnn.vim'
+
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'rhysd/vim-clang-format'

@@ -8,7 +8,5 @@ repo = 'mattn/vim-maketable'
 on_ft = ['md']
 
 [[plugins]]
-repo = 'neoclide/coc.nvim'
-on_i = 1
-branch = 'release'
-#hook_add = 'source ~/.config/nvim/init/coc.init.vim'
+repo = 'kdheepak/JuliaFormatter.vim'
+on_ft = ['jl']
