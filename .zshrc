@@ -20,8 +20,13 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/oss/bin:$PATH"
 
+export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
+
 export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
 export PYTHONPATH="/home/nozawa/research/mymmap/"
+
+# for backward-kill-word
+export WORDCHARS=${WORDCHARS/\/}
 
 export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
 
@@ -37,6 +42,7 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
+bindkey '^ ' autosuggest-accept
 
 #########
 #  FZF  #
