@@ -19,6 +19,8 @@ export PATH="$JULIA_DIR/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/oss/bin:$PATH"
+export PATH="$HOME/node_modules/:$PATH"
+export PATH="$HOME/.npm_global/bin:$PATH"
 
 export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
@@ -126,6 +128,11 @@ n ()
 source $HOME/oss/enhancd/init.sh
 export ENHANCD_FILTER=fzf
 
+
+#############
+#   NVIM    *
+#############
+export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
