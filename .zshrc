@@ -21,11 +21,13 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/oss/bin:$PATH"
 export PATH="$HOME/node_modules/:$PATH"
 export PATH="$HOME/.npm_global/bin:$PATH"
+export PATH="$HOME/oss/julia/:$PATH"
 
 export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
 export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
-export PYTHONPATH="/home/nozawa/research/mymmap/"
+export PYTHONPATH="/home/nozawa/research/mymmap/:$PYTHONPATH"
+export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/:$PYTHONPATH"
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -37,6 +39,15 @@ export CPATH="/home/nozawa/.pyenv/versions/3.9.7/include/python3.9/:/home/nozawa
 export CPATH="/home/nozawa/.local/include:$CPATH"
 export CPATH="/home/nozawa/research/mymmap:$CPATH"
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="$CPATH:$LIBRARY_PATH"
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=underline
+
+FPATH=~/.zsh/plug/zsh-completions:$FPATH
+
+source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export EDITOR="nvim"
 bindkey \^U backward-kill-line
@@ -46,47 +57,31 @@ bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 bindkey '^ ' autosuggest-accept
 
+# less color
+export LESS='-g -i -M -R -W -z-4 -j20 --no-init --quit-if-one-screen'
+export LESS_TERMCAP_mb=$'\e[1;69m'
+export LESS_TERMCAP_md=$'\e[1;69m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[48;5;200m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;32m'
+# termcap terminfo  
+# ks      smkx      make the keypad send commands
+# ke      rmkx      make the keypad send digits
+# vb      flash     emit visual bell
+# mb      blink     start blink
+# md      bold      start bold
+# me      sgr0      turn off bold, blink and underline
+# so      smso      start standout (reverse video)
+# se      rmso      stop standout
+# us      smul      start underline
+# ue      rmul      stop underline
+
 #########
 #  FZF  #
 #########
-
-if type "fzf" > /dev/null 2>&1; then
-	export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-	export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-	export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
-fi
-
-alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
-
-
-# fshow - git commit browser
-fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview="$_viewGitLogLine" \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
-}
-
-
-# fshow_preview - git commit browser with previews
-fshow_preview() {
-    glNoGraph |
-        fzf --no-sort --reverse --tiebreak=index --no-multi \
-            --ansi --preview="$_viewGitLogLine" \
-                --header "enter to view, ctrl-w to copy hash" \
-                --bind "enter:execute:$_viewGitLogLine   | less -R" \
-                --bind "ctrl-w:execute:$_gitLogLineToHash | pbcopy" \
-				--height 100% \
-				--border
-}
-
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #########
 #  NNN  #
@@ -132,15 +127,7 @@ export ENHANCD_FILTER=fzf
 #############
 #   NVIM    *
 #############
-export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime
-
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=underline
-
-FPATH=~/.zsh/plug/zsh-completions:$FPATH
-
-source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
+#export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime
 
 
 # Generated for envman. Do not edit.
