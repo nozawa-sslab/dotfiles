@@ -119,7 +119,7 @@ else
 	sudo apt-get install fzf
 	echo "export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'" >> $HOME/.zshrc	
 	echo "export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob \"!.git/*\"'" >> $HOME/.zshrc
-	echo "export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'"
+	echo "export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'"  >> $HOME/.zshrc
 fi
 
 # bat

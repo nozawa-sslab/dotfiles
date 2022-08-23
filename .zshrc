@@ -3,8 +3,6 @@ setopt no_beep
 # alias
 source ~/.zsh/aliases.sh
 
-source ~/research/serialize/mymethod/setup.sh
-
 autoload -Uz compinit && compinit
 
 export TZ=Asia/Tokyo
@@ -19,6 +17,9 @@ export PATH="$JULIA_DIR/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/oss/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="$(go env GOPATH)/bin/:$PATH"
+export GOPATH=$HOME/go
 
 export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
 export PYTHONPATH="/home/nozawa/research/mymmap/"
@@ -29,7 +30,17 @@ export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/T02RFRRBH44/
 export CPATH="/home/nozawa/.pyenv/versions/3.9.7/include/python3.9/:/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/numpy/core/include:/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
 export CPATH="/home/nozawa/.local/include:$CPATH"
 export CPATH="/home/nozawa/research/mymmap:$CPATH"
+export CPATH="/home/nozawa/oss/include/google:$CPATH"
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
+
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=underline
+
+FPATH=~/.zsh/plug/zsh-completions:$FPATH
+
+source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export EDITOR="nvim"
 bindkey \^U backward-kill-line
@@ -37,6 +48,11 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
+bindkey '^ ' autosuggest-accept
+
+export NVIM_HOME="$HOME/.config/nvim"
+
+export WORDCHARS=${WORDCHARS/\/}
 
 #########
 #  FZF  #
@@ -121,15 +137,6 @@ source $HOME/oss/enhancd/init.sh
 export ENHANCD_FILTER=fzf
 
 
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=underline
-
-FPATH=~/.zsh/plug/zsh-completions:$FPATH
-
-source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
@@ -143,3 +150,5 @@ eval "$(pyenv init --path)"
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
