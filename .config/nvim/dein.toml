@@ -45,8 +45,8 @@ repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-branch = 'release'
-#hook_add = 'source ~/.config/nvim/init/coc.init.vim'
+merged = 0
+rev = 'release'
 
 [[plugins]]
 repo = 'JuliaEditorSupport/julia-vim'

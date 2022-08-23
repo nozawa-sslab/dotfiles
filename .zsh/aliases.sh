@@ -2,6 +2,11 @@
 if type "gls" > /dev/null 2>&1; then
 	alias ls='gls --color=auto'
 	alias ll='gls -l --color=auto'
+	alias la='gls -a --color=auto'
+else
+	alias ls='ls --color=auto'
+	alias ll='ls -l --color=auto'
+	alias la='ls -a --color=auto'
 fi
 
 alias val='nvim ~/.zsh/aliases.sh'

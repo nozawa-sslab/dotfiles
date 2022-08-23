@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # zsh
 if type "zsh" > /dev/null 2>&1; then
 	echo "zsh does exist!"
@@ -20,20 +22,20 @@ if [ ! -d $ZSH_PLUG_DIR/zsh-syntax-highlighting ]; then
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-autosuggestions ]; then
-	git clone git@github.com:zsh-users/zsh-autosuggestions 
+	git clone git@github.com:zsh-users/zsh-autosuggestions.git
 	mv zsh-autosuggestions $ZSH_PLUG_DIR/
 	echo "source $HOME/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
 	echo "\n"
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-completions ]; then
-	git clone git://github.com/zsh-users/zsh-completions.git
+	git clone git@github.com:zsh-users/zsh-completions.git
 	mv zsh-completions $ZSH_PLUG_DIR/
 	echo 'export HISTFILE="$HOME/.zsh_histroty"' >> $HOME/.zshrc
 	echo 'export HISTSIZE=2000' >> $HOME/.zshrc
 	echo 'export SAVEHIST=1000' >> $HOME/.zshrc
 	echo "autoload -Uz compinit && compinit" >> $HOME/.zshrc
-	echo "fpath=(path/to/zsh-completions/src $fpath)" >> $HOME/.zshrc
+	echo "fpath=($ZSH_PLUG_DIR/zsh-completions:$fpath)" >> $HOME/.zshrc
 	echo "\n"
 fi
 
@@ -69,7 +71,7 @@ else
 	echo "zoxide does not exist!"
 	echo "\n"
 	sleep 0.1
-	sh -c "$(curl -sS https://webinstall.dev/zoxide)"
+	curl -sS https://webinstall.dev/zoxide | bash
 fi
 
 # Neovim
@@ -80,7 +82,11 @@ else
 	echo "neovim does not exist!"
 	echo "\n"
 	sleep 0.1
-	sudo apt install neovim
+	wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz
+	tar xzvf nvim-linux64.tar.gz
+	mkdir -o $HOME/oss/bin
+	cp ./nvim-linux64/bin/nvim $HOME/oss/bin/
+	echo "export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime" >> .zshrc
 fi
 
 # dein.vim
@@ -102,9 +108,12 @@ else
 	echo "nvm does not exist!"
 	echo "\n"
 	sleep 0.1
-	sh -c "$(curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh)"
+	#sh -c "$(curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh)"
+	curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+	mkdir $HOME/.npm_global
+	npm config set prefix=$HOME/.npm_global
 	nvm install --lts
-	npm install -g yarn
+	npm install yarn
 	yarn --cwd $HOME/.config/nvim/dein/repos/github.com/neoclide/coc.nvim install
 fi
 
@@ -131,9 +140,8 @@ else
 	echo "\n"
 	sleep 0.1
 	sudo apt install bat
-	batcat_dir=$(which batcat)
-	parent_dir=$(dirname $batcar_dir)
-	ln -s $(which batcat) parent_dir/bat
+	parent_dir=$(dirname $(which batcat))
+	sudo ln -s $(which batcat) $parent_dir/bat
 fi
 
 # rip-grep
@@ -145,6 +153,25 @@ else
 	echo "\n"
 	sleep 0.1
 	sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+fi
+
+# pyenv
+if type "pyenv" > /dev/null 2>&1 ; then
+	echo "pyenv does exist"
+else
+	echo "\n"
+	echo "pyenv does not exist!"
+	echo "\n"
+	sleep 0.1
+	sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+		libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+		libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+	curl https://pyenv.run | bash
+	exec $SHELL
+
+	pyenv install 3.9.7
+	pyenv global 3.9.7
 fi
 
 echo "Finished installation!!\n"

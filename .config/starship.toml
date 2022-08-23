@@ -7,7 +7,8 @@ truncate_to_repo = false
 style = "bold #719bff"
 
 [hostname]
-style = "bold #ff5a00"
+#style = "bold #ff5a00"
+style = "bold #f0f8ff"
 
 [git_branch]
 style = "bold #fd9bac"
