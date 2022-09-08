@@ -31,6 +31,15 @@ if [ ! -d $ZSH_PLUG_DIR/zsh-completions ]; then
 	echo "\n"
 fi
 
+# cargo
+if type "cargo" > /dev/null 2>&1; then
+	echo "rust/cargo does exist!"
+else
+	echo "rust/cargo does not exist!"
+	sleep 0.1
+	curl https://sh.rustup.rs -sSf | sh
+fi
+
 # starship
 if type "starship" > /dev/null 2>&1; then
 	echo "starship does exist!"
@@ -41,7 +50,7 @@ else
 	sleep 0.1
 ## install FiraCode Nerd Fonts
 	sudo apt install fontconfig
-	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip ~/
 	if [ ! -d $HOME/.fonts]; then
 		mkdir $HOME/.fonts
 	fi
@@ -55,6 +64,8 @@ else
 ## finally install starhsip binary
 	sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
+
+mkdir -p $HOME/oss/bin
 
 if type "z" > /dev/null 2>&1; then
 	echo "zoxide does exist!"
@@ -74,10 +85,9 @@ else
 	echo "neovim does not exist!"
 	echo "\n"
 	sleep 0.1
-	wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz
-	tar xzvf nvim-linux64.tar.gz
-	mkdir -o $HOME/oss/bin
-	cp ./nvim-linux64/bin/nvim $HOME/oss/bin/
+	wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz -P ~/Downloads
+	tar xzvf ~/Downloads/nvim-linux64.tar.gz -C ~/oss/
+	cp ~/oss/nvim-linux64/bin/nvim ~/oss/bin/
 fi
 
 # dein.vim
@@ -128,9 +138,7 @@ else
 	echo "bat does not exist!"
 	echo "\n"
 	sleep 0.1
-	sudo apt install bat
-	parent_dir=$(dirname $(which batcat))
-	sudo ln -s $(which batcat) $parent_dir/bat
+	cargo install --locked bat
 fi
 
 # rip-grep
@@ -141,7 +149,8 @@ else
 	echo "ripgrep does not exist!"
 	echo "\n"
 	sleep 0.1
-	sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+#	sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+	cargo install ripgrep
 fi
 
 # pyenv

@@ -128,7 +128,7 @@ export ENHANCD_FILTER=fzf
 #############
 #   NVIM    *
 #############
-#export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime
+export VIMRUNTIME=$HOME/oss/nvim-linux64/share/nvim/runtime
 
 
 # Generated for envman. Do not edit.
