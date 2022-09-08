@@ -4,6 +4,9 @@
 # cp $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 # 
 # cp $HOME/dotfiles/.config/starship.toml $HOME/starship.toml
+#
+# cp $HOME/.config/nvim/*toml
+# cp $HOME/.config/nvim/init/*
 
 import os
 import subprocess as sb
@@ -22,14 +25,15 @@ cmd(["cp", os.path.join(DOTFILES_HOME, ".gitconfig"), os.path.join(HOME, ".gitco
 cmd(["cp", os.path.join(DOTFILES_HOME, ".clang-format"), os.path.join(HOME, ".clang-format")])
 cmd(["cp", os.path.join(DOTFILES_HOME, ".config", "starship.toml"), os.path.join(HOME, ".config", "starship.toml")])
 
+# 
 NVIM_HOME_IN_DOTFILES = os.path.join(DOTFILES_HOME, ".config", "nvim")
 files = os.listdir(NVIM_HOME_IN_DOTFILES)
 for file in files:
-    filepath = os.path.join(NVIM_HOME_IN_DOTFILES, "nvim")
+    filepath = os.path.join(NVIM_HOME_IN_DOTFILES, file)
     if os.path.isfile(filepath):
         cmd(["cp", filepath, os.path.join(NVIM_HOME, file)]) 
     elif os.path.isdir(filepath) and file == "init":
-        # inside init.vim
+        # inside nvim/init
         files_in_init = os.listdir(filepath)
         for file_in_init in files_in_init:
             filepath_ = os.path.join(filepath, file_in_init)
