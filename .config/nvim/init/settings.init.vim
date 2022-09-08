@@ -10,6 +10,8 @@ let mapleader = "\<Space>"
 set clipboard+=unnamedplus
 " remap Esc
 :imap jj <Esc>
+" remap :w
+:noremap ff :w<CR>
 
 " Use ctrl-[hjkl] to select the active split!
 nmap <silent> <c-k> :wincmd k<CR>
@@ -30,6 +32,16 @@ set hlsearch
 "-----------------------
 " 表示設定
 "-----------------------
+set t_Co=256
+" Enable 24-bit RGB color
+set termguicolors
+" Background Opa
+au ColorScheme * highlight Normal ctermbg=none guibg=none
+au ColorScheme iceberg highlight NonText ctermbg=none guibg=none
+au ColorScheme iceberg highlight LineNr ctermbg=none guibg=none
+hi CursorLineNr cterm=NONE ctermbg=237 ctermfg=253 guibg=#2a3158 guifg=#cdd1e6
+" language
+language en_US.UTF-8
 " 音消す
 set noerrorbells
 set vb t_vb=
@@ -44,10 +56,6 @@ set smartindent
 set laststatus=2
 
 set noexpandtab
-" インデント幅
-set shiftwidth=4
-" tab幅
-set tabstop=4
 " シンタックスハイライト
 syntax enable
 " hlsearch
@@ -62,6 +70,25 @@ set showmatch
 noremap -1 $
 
 set noswapfile
+
+augroup fileTypeIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.jl setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.sv setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.rb setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.c setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.cc setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.h setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.hh setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.j2 setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.erb setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.hs setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.dart setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 shiftwidth=2
+augroup END
 
 "----------------------------------------------------------
 " クリップボードからのペースト
