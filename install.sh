@@ -5,7 +5,6 @@ if type "zsh" > /dev/null 2>&1; then
 	echo "zsh does exist!"
 else
 	sudo apt-get install zsh
-	touch $HOME/.zshrc
 fi
 
 # zsh plugins
@@ -17,25 +16,18 @@ ZSH_PLUG_DIR="$HOME/.zsh/plug"
 if [ ! -d $ZSH_PLUG_DIR/zsh-syntax-highlighting ]; then
 	git clone git@github.com:zsh-users/zsh-syntax-highlighting.git 
 	mv zsh-syntax-highlighting $ZSH_PLUG_DIR/
-	echo "source $HOME/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
 	echo "\n"
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-autosuggestions ]; then
 	git clone git@github.com:zsh-users/zsh-autosuggestions.git
 	mv zsh-autosuggestions $ZSH_PLUG_DIR/
-	echo "source $HOME/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
 	echo "\n"
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-completions ]; then
 	git clone git@github.com:zsh-users/zsh-completions.git
 	mv zsh-completions $ZSH_PLUG_DIR/
-	echo 'export HISTFILE="$HOME/.zsh_histroty"' >> $HOME/.zshrc
-	echo 'export HISTSIZE=2000' >> $HOME/.zshrc
-	echo 'export SAVEHIST=1000' >> $HOME/.zshrc
-	echo "autoload -Uz compinit && compinit" >> $HOME/.zshrc
-	echo "fpath=($ZSH_PLUG_DIR/zsh-completions:$fpath)" >> $HOME/.zshrc
 	echo "\n"
 fi
 
@@ -86,7 +78,6 @@ else
 	tar xzvf nvim-linux64.tar.gz
 	mkdir -o $HOME/oss/bin
 	cp ./nvim-linux64/bin/nvim $HOME/oss/bin/
-	echo "export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime" >> .zshrc
 fi
 
 # dein.vim
@@ -125,10 +116,8 @@ else
 	echo "fzf does not exist!"
 	echo "\n"
 	sleep 0.1
-	sudo apt-get install fzf
-	echo "export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'" >> $HOME/.zshrc	
-	echo "export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob \"!.git/*\"'" >> $HOME/.zshrc
-	echo "export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'"  >> $HOME/.zshrc
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+	~/.fzf/install
 fi
 
 # bat
