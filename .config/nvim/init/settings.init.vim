@@ -12,6 +12,7 @@ set clipboard+=unnamedplus
 set noswapfile
 
 :imap jj <Esc>
+:nnoremap ff :w<CR>
 
 " Use ctrl-[hjkl] to select the active split!
 nmap <silent> <c-k> :wincmd k<CR>
