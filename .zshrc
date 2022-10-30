@@ -5,11 +5,39 @@ source $HOME/.cargo/env
 
 autoload -Uz compinit && compinit
 
+# max # of file descriptor
+ulimit -n 4096
+
 export TERM=xterm-256color
 export JULIA_DIR="/Applications/Julia-1.6.app/Contents/Resources/Julia"
 export PATH="$JULIA_DIR/bin:$PATH"
+export PATH="$HOME/oss/bin:$PATH"
 
-export CPATH="/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
+export CPATH="/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9:/usr/local/include"
+
+export PYTHONPATH="/Users/masa/.pyenv/versions/3.9.7/lib/python3.9/site-packages:$PYTHONPATH"
+
+# for qt
+#export LDFLAGS="-L/usr/local/opt/llvm/lib"
+#export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=underline
+
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+
+if test -d ~/.zsh/plug/zsh-syntax-highlighting; then
+	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if test -d ~/.zsh/plug/zsh-autosuggestions; then
+	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 export EDITOR="/usr/local/bin/nvim"
 
@@ -20,16 +48,21 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
+bindkey '^ ' autosuggest-accept
 
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 
+export RADIGO_HOME=$HOME/radigo_record
+
+export WORDCHARS=${WORDCHARS/\/}
+
 #########
 #  FZF  *
 #########
 if type "fzf" > /dev/null 2>&1; then
-	export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+	export FZF_DEFAULT_OPTS='--multi --height 40% --layout=reverse --border'
 	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 	export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 	export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
@@ -116,23 +149,14 @@ nnn_cd()
 
 trap nnn_cd EXIT
 
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=underline
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+####################
+# pygments for pdf #
+####################
+pyg() {
+	pygmentize -f html -O noclasses=True,linenos=inline,style=abap -l c 
+}
 
-    autoload -Uz compinit
-    compinit
-fi
-
-if test -d ~/.zsh/plug/zsh-syntax-highlighting; then
-	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if test -d ~/.zsh/plug/zsh-autosuggestions; then
-	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
 
 source ~/.zsh/functions.sh
 
@@ -141,3 +165,6 @@ eval "$(starship init zsh)"
 eval "$(pyenv init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
