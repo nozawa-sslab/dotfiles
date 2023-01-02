@@ -1,3 +1,4 @@
+set encoding=utf-8
 " 全角文字専用の設定
 "set ambiwidth=double
 " Tabによるコマンド補完の候補をステータスラインに表示
@@ -10,16 +11,13 @@ let mapleader = "\<Space>"
 set clipboard+=unnamedplus
 " remap Esc
 :imap jj <Esc>
+:nnoremap ff :w<CR>
 
 " Use ctrl-[hjkl] to select the active split!
 nmap <silent> <c-k> :wincmd k<CR>
 nmap <silent> <c-j> :wincmd j<CR>
 nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
-
-" Quickly insert an empty new line without entering insert mode
-nnoremap <Leader>o o<Esc>
-nnoremap <Leader>O O<Esc>
 "-----------------------"
 " 検索
 "-----------------------
