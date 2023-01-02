@@ -186,6 +186,18 @@ else
 	curl -sS https://webinstall.dev/zoxide | bash
 fi
 
+# git-delta
+if type "delta" > /dev/null 2>&1; then
+	echo "zoxide does exist!"
+else
+	echo "\n"
+	echo "git-delta does not exist!"
+	echo "\n"
+	sleep 0.1
+	cargo install git-delta
+fi
+
+
 
 echo "Finished installation!!\n"
 echo "Enter following command and Restart a new terminal session:\n\tchsh -s \$(which zsh)\n"
