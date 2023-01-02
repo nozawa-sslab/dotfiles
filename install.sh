@@ -175,5 +175,16 @@ else
 	pyenv global 3.9.7
 fi
 
+# rust
+if type "rustup" > /dev/null 2>&1 ; then
+	echo "rustup does exit!"
+else
+	echo "\n"
+	echo "rustup does not exist!"
+	echo "\n"
+	sleep 0.1
+	curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+fi
+
 echo "Finished installation!!\n"
 echo "Enter following command and Restart a new terminal session:\n\tchsh -s \$(which zsh)\n"
