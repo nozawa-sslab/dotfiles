@@ -17,61 +17,26 @@ ZSH_PLUG_DIR="$HOME/.zsh/plug"
 if [ ! -d $ZSH_PLUG_DIR/zsh-syntax-highlighting ]; then
 	git clone git@github.com:zsh-users/zsh-syntax-highlighting.git 
 	mv zsh-syntax-highlighting $ZSH_PLUG_DIR/
-	echo "source $HOME/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
+#	echo "source $HOME/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc
 	echo "\n"
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-autosuggestions ]; then
 	git clone git@github.com:zsh-users/zsh-autosuggestions.git
 	mv zsh-autosuggestions $ZSH_PLUG_DIR/
-	echo "source $HOME/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
+#	echo "source $HOME/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc
 	echo "\n"
 fi
 
 if [ ! -d $ZSH_PLUG_DIR/zsh-completions ]; then
 	git clone git@github.com:zsh-users/zsh-completions.git
 	mv zsh-completions $ZSH_PLUG_DIR/
-	echo 'export HISTFILE="$HOME/.zsh_histroty"' >> $HOME/.zshrc
-	echo 'export HISTSIZE=2000' >> $HOME/.zshrc
-	echo 'export SAVEHIST=1000' >> $HOME/.zshrc
-	echo "autoload -Uz compinit && compinit" >> $HOME/.zshrc
-	echo "fpath=($ZSH_PLUG_DIR/zsh-completions:$fpath)" >> $HOME/.zshrc
+#	echo 'export HISTFILE="$HOME/.zsh_histroty"' >> $HOME/.zshrc
+#	echo 'export HISTSIZE=2000' >> $HOME/.zshrc
+#	echo 'export SAVEHIST=1000' >> $HOME/.zshrc
+#	echo "autoload -Uz compinit && compinit" >> $HOME/.zshrc
+#	echo "fpath=($ZSH_PLUG_DIR/zsh-completions:$fpath)" >> $HOME/.zshrc
 	echo "\n"
-fi
-
-# starship
-if type "starship" > /dev/null 2>&1; then
-	echo "starship does exist!"
-else
-	echo "\n"
-	echo "starship does not exist!"
-	echo "\n"
-	sleep 0.1
-## install FiraCode Nerd Fonts
-	sudo apt install fontconfig
-	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
-	if [ ! -d $HOME/.fonts]; then
-		mkdir $HOME/.fonts
-	fi
-	unzip FiraCode.zip -d $HOME/.fonts
-	fc-cache -fv
-
-## install Cargo and libssl-dev
-	sudo apt install libssl-dev pkg-config
-	sudo apt install cargo
-
-## finally install starhsip binary
-	sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-fi
-
-if type "z" > /dev/null 2>&1; then
-	echo "zoxide does exist!"
-else
-	echo "\n"
-	echo "zoxide does not exist!"
-	echo "\n"
-	sleep 0.1
-	curl -sS https://webinstall.dev/zoxide | bash
 fi
 
 # Neovim
@@ -86,7 +51,7 @@ else
 	tar xzvf nvim-linux64.tar.gz
 	mkdir -p $HOME/oss/bin
 	cp ./nvim-linux64/bin/nvim $HOME/oss/bin/
-	echo "export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime" >> .zshrc
+#	echo "export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime" >> .zshrc
 fi
 
 # dein.vim
@@ -127,9 +92,9 @@ else
 	echo "\n"
 	sleep 0.1
 	sudo apt-get install fzf
-	echo "export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'" >> $HOME/.zshrc	
-	echo "export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob \"!.git/*\"'" >> $HOME/.zshrc
-	echo "export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'"
+#	echo "export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'" >> $HOME/.zshrc	
+#	echo "export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob \"!.git/*\"'" >> $HOME/.zshrc
+#	echo "export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'"
 fi
 
 # bat
@@ -185,6 +150,42 @@ else
 	sleep 0.1
 	curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 fi
+
+# starship
+if type "starship" > /dev/null 2>&1; then
+	echo "starship does exist!"
+else
+	echo "\n"
+	echo "starship does not exist!"
+	echo "\n"
+	sleep 0.1
+## install FiraCode Nerd Fonts
+	sudo apt install fontconfig
+	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+	if [ ! -d $HOME/.fonts]; then
+		mkdir $HOME/.fonts
+	fi
+	unzip FiraCode.zip -d $HOME/.fonts
+	fc-cache -fv
+
+## install Cargo and libssl-dev
+	sudo apt install libssl-dev pkg-config
+	sudo apt install cargo
+
+## finally install starhsip binary
+	sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+fi
+
+if type "z" > /dev/null 2>&1; then
+	echo "zoxide does exist!"
+else
+	echo "\n"
+	echo "zoxide does not exist!"
+	echo "\n"
+	sleep 0.1
+	curl -sS https://webinstall.dev/zoxide | bash
+fi
+
 
 echo "Finished installation!!\n"
 echo "Enter following command and Restart a new terminal session:\n\tchsh -s \$(which zsh)\n"
