@@ -156,3 +156,5 @@ eval "$(pyenv init --path)"
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+export VIMRUNTIME=/home/amabow/nvim-linux64/share/nvim/runtime
+export VIMRUNTIME=/home/amabow/nvim-linux64/share/nvim/runtime

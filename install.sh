@@ -84,7 +84,7 @@ else
 	sleep 0.1
 	wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz
 	tar xzvf nvim-linux64.tar.gz
-	mkdir -o $HOME/oss/bin
+	mkdir -p $HOME/oss/bin
 	cp ./nvim-linux64/bin/nvim $HOME/oss/bin/
 	echo "export VIMRUNTIME=$HOME/nvim-linux64/share/nvim/runtime" >> .zshrc
 fi
@@ -113,6 +113,7 @@ else
 	mkdir $HOME/.npm_global
 	npm config set prefix=$HOME/.npm_global
 	nvm install --lts
+	nvm install stable
 	npm install yarn
 	yarn --cwd $HOME/.config/nvim/dein/repos/github.com/neoclide/coc.nvim install
 fi
