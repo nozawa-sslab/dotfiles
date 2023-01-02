@@ -3,8 +3,6 @@ setopt no_beep
 # alias
 source ~/.zsh/aliases.sh
 
-source ~/research/serialize/mymethod/setup.sh
-
 autoload -Uz compinit && compinit
 
 export TZ=Asia/Tokyo
@@ -24,8 +22,8 @@ export PATH="$HOME/.npm_global/bin:$PATH"
 
 export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
-export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
-export PYTHONPATH="/home/nozawa/research/mymmap/"
+export PYTHONPATH="$HOME/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
+export PYTHONPATH="$HOME/research/mymmap/"
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -33,10 +31,10 @@ export WORDCHARS=${WORDCHARS/\/}
 export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
 
 # clang's {include, library} path
-export CPATH="/home/nozawa/.pyenv/versions/3.9.7/include/python3.9/:/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/numpy/core/include:/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
-export CPATH="/home/nozawa/.local/include:$CPATH"
-export CPATH="/home/nozawa/research/mymmap:$CPATH"
-export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
+export CPATH="$HOME/.pyenv/versions/3.9.7/include/python3.9/:$HOME/.pyenv/versions/3.9.7/lib/python3.9/site-packages/numpy/core/include:/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
+export CPATH="$HOME/.local/include:$CPATH"
+export CPATH="$HOME/research/mymmap:$CPATH"
+export LD_LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
 
 export EDITOR="nvim"
 bindkey \^U backward-kill-line
