@@ -55,7 +55,7 @@ set smartindent
 " 下のステータスラインを常に表示 
 set laststatus=2
 
-set noexpandtab
+set expandtab
 " シンタックスハイライト
 syntax enable
 " hlsearch
@@ -88,6 +88,7 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.hs setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.dart setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.rs setlocal tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
 
 "----------------------------------------------------------
