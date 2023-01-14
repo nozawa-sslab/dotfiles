@@ -2,6 +2,7 @@ setopt no_beep
 
 # alias
 source ~/.zsh/aliases.sh
+source $HOME/.cargo/env
 
 source ~/research/serialize/mymethod/setup.sh
 
@@ -142,5 +143,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 
+source ~/.zsh/functions.sh
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
