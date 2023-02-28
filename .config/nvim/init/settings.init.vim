@@ -1,5 +1,6 @@
+set encoding=utf-8
 " 全角文字専用の設定
-"set ambiwidth=double
+" set ambiwidth=double
 " Tabによるコマンド補完の候補をステータスラインに表示
 set wildmenu
 " backspaceを効かせる
