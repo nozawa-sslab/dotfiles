@@ -1,46 +1,124 @@
 setopt no_beep
 
-source ~/.zsh/aliases.sh
 source $HOME/.cargo/env
-
-autoload -Uz compinit && compinit
 
 # max # of file descriptor
 ulimit -n 4096
 
 export TERM=xterm-256color
-export JULIA_DIR="/Applications/Julia-1.6.app/Contents/Resources/Julia"
-export PATH="$JULIA_DIR/bin:$PATH"
+
+# path
+# oss
 export PATH="$HOME/oss/bin:$PATH"
-
+# llvm
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+# julialang
+export PATH="$JULIA_DIR/bin:$PATH"
+export JULIA_DIR="/Applications/Julia-1.6.app/Contents/Resources/Julia"
+# x-code
+export PATH="/Users/masa/Downloads/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:$PATH"
+# gcc header search path
 export CPATH="/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9:/usr/local/include"
-
+# python import
 export PYTHONPATH="/Users/masa/.pyenv/versions/3.9.7/lib/python3.9/site-packages:$PYTHONPATH"
+# radigo
+export RADIGO_HOME=$HOME/radigo_record
 
-# for qt
-#export LDFLAGS="-L/usr/local/opt/llvm/lib"
-#export CPPFLAGS="-I/usr/local/opt/llvm/include"
+# alias
+if type "gls" > /dev/null 2>&1; then
+	alias ls='gls --color=auto'
+	alias ll='gls -al --color=auto'
+	alias la='gls -a --color=auto'
+fi
+
+if type "gsed" > /dev/null 2>&1; then
+	alias sed='gsed'
+fi
+
+alias val='nvim ~/.zsh/aliases.sh'
+alias ps='ps -j'
+alias zrc='nvim ~/.zshrc'
+alias vrc='nvim ~/.vimrc'
+alias arc='nvim ~/.config/alacritty/alacritty.yml'
+alias rel='exec $SHELL -l'
+alias ctags="`brew --prefix`/bin/ctags"
+alias fbat='fzf --preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+alias vstar='nvim ~/.config/starship.toml'
+alias chrome='open -a "google chrome"'
+alias clip='(){cat $1 | pbcopy}'
+alias python='python3'
+alias pyb='python3 -m compileall'
+alias vf='nvim $(fzf)'
+alias cd..='cd ../'
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+}
+
+# alias for Neovim
+alias vi='nvim'
+alias vinit='nvim ~/.config/nvim/init.vim'
+alias vset='nvim ~/.config/nvim/init/settings.init.vim'
+alias dinit='nvim ~/.config/nvim/init/dein.init.vim'
+alias vtoml='nvim ~/.config/nvim/dein.toml'
+alias vlazy='nvim ~/.config/nvim/dein_lazy.toml'
+
+# alias for git
+alias gs='git status'
+
+# alias for python
+alias pet='python setup.py install'
+alias note='jupyter notebook'
+
+# alias for ssh tunneling
+alias socks='ssh -D localhost:1080 pegasus -N -T'
+alias socksf='ssh -fND localhost:8080 pegasus.remote'
+
+# zinit
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
+# install and load zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit ice wait lucid
+zinit light zsh-users/zsh-completions
+zinit ice wait lucid
+zinit light b4b4r07/enhancd
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+zinit ice wait lucid
+zinit light asdf-vm/asdf
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
-
-if test -d ~/.zsh/plug/zsh-syntax-highlighting; then
-	source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if test -d ~/.zsh/plug/zsh-autosuggestions; then
-	source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-export EDITOR="/usr/local/bin/nvim"
-
+# zle
 # To check key seq, push key after Ctrl-v 
 bindkey "^U" backward-kill-line
 bindkey "^u" backward-kill-line
@@ -50,13 +128,15 @@ bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 bindkey '^ ' autosuggest-accept
 
+export EDITOR="/usr/local/bin/nvim"
+
+# token seperator for zsh
+export WORDCHARS=${WORDCHARS/\/}
+
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-export RADIGO_HOME=$HOME/radigo_record
-
-export WORDCHARS=${WORDCHARS/\/}
 
 #########
 #  FZF  *
@@ -85,6 +165,7 @@ fshow() {
 FZF-EOF"
 }
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fshow_preview - git commit browser with previews
 fshow_preview() {
@@ -101,53 +182,7 @@ fshow_preview() {
 #############
 #  enhancd  *
 #############
-source $HOME/oss/enhancd/init.sh
 export ENHANCD_FILTER=fzf
-
-
-#########
-#  NNN  *
-#########
-export NNN_BMS="h:$HOME"
-export NNN_FIFO=/tmp/nnn.fifo
-export NNN_PLUG='1:ipinfo;p:preview-tui;o:fzz;b:nbak'
-n ()
-{
-    # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, either remove the "export" as in:
-    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
-    # or, export NNN_TMPFILE after nnn invocation
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    nnn "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rm -f "$NNN_TMPFILE" > /dev/null
-    fi
-}
-
-nnn_cd()                                                                                                   
-{
-    if ! [ -z "$NNN_PIPE" ]; then
-        printf "%s\0" "0c${PWD}" > "${NNN_PIPE}" !&
-    fi  
-}
-
-trap nnn_cd EXIT
 
 
 ####################
@@ -158,13 +193,6 @@ pyg() {
 }
 
 
-source ~/.zsh/functions.sh
-
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
-eval "$(pyenv init -)"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export PATH="$HOME/.poetry/bin:$PATH"
-export PATH="/usr/local/opt/llvm/bin:$PATH"
