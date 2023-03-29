@@ -1,7 +1,50 @@
 setopt no_beep
 
 # alias
-source ~/.zsh/aliases.sh
+if type "gls" > /dev/null 2>&1; then
+	alias ls='gls --color=auto'
+	alias ll='gls -l --color=auto'
+else
+	alias ls='ls --color=auto'
+	alias ll='ls -l --color=auto'
+fi
+
+alias val='nvim ~/.zsh/aliases.sh'
+alias vf='nvim $(fzf)'
+alias ps='ps -j'
+alias zrc='nvim ~/.zshrc'
+alias vrc='nvim ~/.vimrc'
+alias rel='exec $SHELL -l'
+alias fbat='fzf --preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+alias vstar='nvim ~/.config/starship.toml'
+alias chrome='open -a "google chrome"'
+alias clip='(){cat $1 | pbcopy}'
+alias lab='jupyter lab --no-browser --port=8888'
+alias pyb='python -m compileall'
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+alias crontab='crontab -i'
+
+# Neovim
+alias vi='nvim'
+alias vinit='nvim ~/.config/nvim/init.vim'
+alias vset='nvim ~/.config/nvim/init/settings.init.vim'
+alias dinit='nvim ~/.config/nvim/init/dein.init.vim'
+alias vtoml='nvim ~/.config/nvim/dein.toml'
+alias vlazy='nvim ~/.config/nvim/dein_lazy.toml'
+
+# git
+alias gs='git status'
+
+# notification
+alias notify='python ~/notification/notify.py'
+
+#jupyter notebook
+function  jpt(){
+    # Fires-up a Jupyter notebook by supplying a specific port
+    jupyter notebook --no-browser --port=$1
+}
+
 source $HOME/.cargo/env
 
 source ~/research/serialize/mymethod/setup.sh
@@ -11,9 +54,13 @@ autoload -Uz compinit && compinit
 export TZ=Asia/Tokyo
 export TERM=xterm-256color
 
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=2000
-export SAVEHIST=1000
+export EDITOR="/usr/local/bin/nvim"
+# token seperator for zsh
+export WORDCHARS=${WORDCHARS/\/}
+
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 export JULIA_DIR="$HOME/julia-1.6.2"
 export PATH="$JULIA_DIR/bin:$PATH"
@@ -28,7 +75,7 @@ export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
 export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
 export PYTHONPATH="/home/nozawa/research/mymmap/:$PYTHONPATH"
-export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/:$PYTHONPATH"
+export PYTHONPATH="/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages"
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -42,21 +89,7 @@ export CPATH="/home/nozawa/research/mymmap:$CPATH"
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
 export LD_LIBRARY_PATH="$CPATH:$LIBRARY_PATH"
 
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=underline
-
-FPATH=~/.zsh/plug/zsh-completions:$FPATH
-
-source ~/.zsh/plug/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/plug/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-export EDITOR="nvim"
-bindkey \^U backward-kill-line
-bindkey "^[f" forward-word
-bindkey "^[b" backward-word
-bindkey "^A" beginning-of-line
-bindkey "^E" end-of-line
-bindkey '^ ' autosuggest-accept
+#FPATH=~/.zsh/plug/zsh-completions:$FPATH
 
 # less color
 export LESS='-g -i -M -R -W -z-4 -j20'
@@ -85,40 +118,6 @@ export LESS_TERMCAP_us=$'\e[1;4;32m'
 #########
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#########
-#  NNN  #
-#########
-
-n ()
-{
-    # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, either remove the "export" as in:
-    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
-    # or, export NNN_TMPFILE after nnn invocation
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    nnn "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rm -f "$NNN_TMPFILE" > /dev/null
-    fi
-}
-
-
 #############
 #  enhancd  *
 #############
@@ -131,19 +130,65 @@ export ENHANCD_FILTER=fzf
 #############
 export VIMRUNTIME=$HOME/oss/nvim-linux64/share/nvim/runtime
 
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-
-source ~/.zsh/functions.sh
-
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+###################
+# zinit (plugins) #
+###################
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
+# install and load zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit ice wait lucid
+zinit light b4b4r07/enhancd
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+zinit ice wait lucid
+zinit light asdf-vm/asdf
+zinit ice wiat lucid
+zinit light BurntSushi/ripgrep
+# sharkdp/bat
+zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=underline
+
+bindkey -v
+
+# zle
+# To check key seq, push key after Ctrl-v 
+bindkey "^U" backward-kill-line
+bindkey "^u" backward-kill-line
+bindkey "^[f" forward-word
+bindkey "^[b" backward-word
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey '^ ' autosuggest-accept
