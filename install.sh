@@ -50,6 +50,10 @@ setup::shell() {
 #setup::gpg() {
 #}
 
+setup::vim() {
+  install::default ".vimrc"
+}
+
 setup::misc() {
   install::default ".clang-format"
   install::default ".gitconfig"
