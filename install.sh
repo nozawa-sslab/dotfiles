@@ -205,5 +205,7 @@ install::default() {
   cd "$old_pwd"
 }
 
+main "$@"
+
 echo "Finished installation\n"
 echo "Enter following command and Restart a new terminal session:\n\tchsh -s \$(which zsh)\n"
