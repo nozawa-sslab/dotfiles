@@ -27,6 +27,7 @@ alias crontab='crontab -i'
 
 # Neovim
 alias vi='nvim'
+alias vim='nvim'
 alias vinit='nvim ~/.config/nvim/init.vim'
 alias vset='nvim ~/.config/nvim/init/settings.init.vim'
 alias dinit='nvim ~/.config/nvim/init/dein.init.vim'
