@@ -7,170 +7,203 @@ else
 	sudo apt-get install zsh
 fi
 
-# zsh plugins
-if [ ! -d $HOME/.zsh/plug ]; then
-	mkdir -p $HOME/.zsh/plug
-fi
-ZSH_PLUG_DIR="$HOME/.zsh/plug"
+DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/Library/dotfiles
 
-if [ ! -d $ZSH_PLUG_DIR/zsh-syntax-highlighting ]; then
-	git clone git@github.com:zsh-users/zsh-syntax-highlighting.git 
-	mv zsh-syntax-highlighting $ZSH_PLUG_DIR/
-	echo "\n"
-fi
+OSS_DIR=$HOME/oss
 
-if [ ! -d $ZSH_PLUG_DIR/zsh-autosuggestions ]; then
-	git clone git@github.com:zsh-users/zsh-autosuggestions.git
-	mv zsh-autosuggestions $ZSH_PLUG_DIR/
-	echo "\n"
-fi
+main() {
+  local install_deps=""
+  for n in "$@"; do
+    case "$n" in
+      --install-deps)
+        install_deps=yes
+        ;;
+      *)
+        ;;
+    esac
+  done
 
-if [ ! -d $ZSH_PLUG_DIR/zsh-completions ]; then
-	git clone git@github.com:zsh-users/zsh-completions.git
-	mv zsh-completions $ZSH_PLUG_DIR/
-	echo "\n"
-fi
+  cd "$DOTFILE_DIR"
 
-# cargo
-if type "cargo" > /dev/null 2>&1; then
-	echo "rust/cargo does exist!"
-else
-	echo "rust/cargo does not exist!"
-	sleep 0.1
-	curl https://sh.rustup.rs -sSf | sh
-fi
+  echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
+  git submodule update --init --remote
 
-# starship
-if type "starship" > /dev/null 2>&1; then
-	echo "starship does exist!"
-else
-	echo "\n"
-	echo "starship does not exist!"
-	echo "\n"
-	sleep 0.1
-## install FiraCode Nerd Fonts
-	sudo apt install fontconfig
-	wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip ~/
-	if [ ! -d $HOME/.fonts]; then
-		mkdir $HOME/.fonts
-	fi
-	unzip FiraCode.zip -d $HOME/.fonts
-	fc-cache -fv
+  echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
+  setup::shell
+  setup::vim
+  setup::gpg
+  setup::misc
 
-## install Cargo and libssl-dev
-	sudo apt install libssl-dev pkg-config
-	sudo apt install cargo
+  if [[ -n "$install_deps" ]]; then
+    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
+    setup::deps
+  fi
+}
 
-## finally install starhsip binary
-	sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-fi
+setup::shell() {
+  install::default ".bashrc"
+  install::default ".zshrc"
+  install::default ".config/starship.toml"
+  install::default ".p10k.zsh"
+}
 
-mkdir -p $HOME/oss/bin
+setup::gpg() {
 
-if type "z" > /dev/null 2>&1; then
-	echo "zoxide does exist!"
-else
-	echo "\n"
-	echo "zoxide does not exist!"
-	echo "\n"
-	sleep 0.1
-	curl -sS https://webinstall.dev/zoxide | bash
-fi
+}
 
-# Neovim
-if type "nvim" > /dev/null 2>&1; then
-	echo "Neovim does exist!"
-else
-	echo "\n"
-	echo "neovim does not exist!"
-	echo "\n"
-	sleep 0.1
-	wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz -P ~/Downloads
-	tar xzvf ~/Downloads/nvim-linux64.tar.gz -C ~/oss/
-	cp ~/oss/nvim-linux64/bin/nvim ~/oss/bin/
-fi
+setup::misc() {
+  install::default ".clang-format"
+}
 
-# dein.vim
-if [ ! -d $HOME/.config/nvim/dein ]; then
+setup::plugins_mac() {
+  xcode-select --install
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  brew update
+  brew install \
+    cmake \
+    fd \
+    ccls \
+    nnn \
+    tmux
+
+  # Required packages for neovim compile. There are some duplicates with above,
+  # but we will keep them for the time being.
+  brew install \
+    ninja \
+    libtool \
+    cmake \
+    pkg-config \
+    gettext \
+    curl
+}
+
+setup::plugins_ubuntu() {
+  sudo add-apt-repository ppa:longsleep/golang-backports
+  sudo apt update
+  sudo apt upgrade
+  sudo apt install \
+      build-essential \
+      cmake \
+      git \
+      fd-find \
+      ccls \
+      nnn \
+      tmux
+
+  # Required packages for neovim compile. There are some duplicates with above,
+  # but we will keep them for the time being.
+  sudo apt install \
+    ninja-build \
+    gettext \
+    libtool-bin \
+    cmake \
+    g++ \
+    pkg-config \
+    unzip \
+    curl
+}
+
+setup::deps_linux() {
+  setup::plugins_ubuntu
+}
+
+setup::deps_mac() {
+  setup::plugins_mac
+}
+
+setup::deps() {
+  if [[ $(uname) == "Darwin" ]]; then
+    setup::deps_mac
+  else
+    setup::deps_linux 
+  fi
+
+  setup::rust
+  setup::oss
+}
+
+setup::rust() {
+  # Install rust related
+  curl https://sh.rustup.rs -sSf | sh
+  cargo install gitui
+  cargo install git-delta
+}
+
+setup::oss() {
+  if [ ! -d $OSS_DIR ]; then
+    mkdir -p $OSS_DIR;
+  fi
+  setup::neovim
+  setup::fzf
+}
+
+setup::neovim() {
+  local nvim_dir=$OSS_DIR/neovim
+  local old_pwd="$(pwd)"
+  if [ -d nvim_dir ]; then
+    return
+  fi
+
+  git clone https://github.com/neovim/neovim $nvim_dir
+
+  cd "$nvim_dir"
+  git checkout stable
+  make CMAKE_BUILD_TYPE=RelWithDebInfo
+  sudo make install
+  cd "$old_pwd"
+
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+  nvim +PlugInstall +qall
+}
+
+setup::dein() {
 	mkdir -p $HOME/.config/nvim/dein
 
-	curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $HOME/.config/nvim/dein/installer.sh
-	sh $HOME/.config/nvim/dein/installer.sh $HOME/.config/nvim/dein
+  local NVIM_CONFIG_DIR=$HOME/.config/nvim
+	curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $NVIM_CONFIG_DIR/dein/installer.sh
+	sh $NVIM_CONFIG_DIR/dein/installer.sh $NVIM_CONFIG_DIR/dein
 
-	cp -r $HOME/dotfiles/.config/nvim/init* $HOME/.config/nvim/
-	cp $HOME/dotfiles/.config/nvim/*toml $HOME/.config/nvim/
-fi
+  # copy *.init.vim
+	cp -r $HOME/dotfiles/.config/nvim/init* $NVIM_CONFIG_DIR
+	cp $HOME/dotfiles/.config/nvim/*toml $NVIM_CONFIG_DIR
+}
 
-# coc.nvim
-if type "nvm" > /dev/null 2>&1; then
-	echo "nvm does exist!"
-else
-	echo "\n"
-	echo "nvm does not exist!"
-	echo "\n"
-	sleep 0.1
-	#sh -c "$(curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh)"
-	curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-	mkdir $HOME/.npm_global
-	npm config set prefix=$HOME/.npm_global
-	nvm install --lts
-	npm install yarn
-	yarn --cwd $HOME/.config/nvim/dein/repos/github.com/neoclide/coc.nvim install
-fi
-
-# fzf
-if type "fzf" > /dev/null 2>&1; then
-	echo "fzf does exist!"
-else
-	echo "\n"
-	echo "fzf does not exist!"
-	echo "\n"
-	sleep 0.1
+setup::fzf() {
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	~/.fzf/install
-fi
+}
 
-# bat
-if type "bat" > /dev/null 2>&1; then
-	echo "bat does exist!"
-else
-	echo "\n"
-	echo "bat does not exist!"
-	echo "\n"
-	sleep 0.1
-	cargo install --locked bat
-fi
 
-# rip-grep
-if type "rg" > /dev/null 2>&1; then
-	echo "ripgrep does exist!"
-else
-	echo "\n"
-	echo "ripgrep does not exist!"
-	echo "\n"
-	sleep 0.1
-#	sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
-	cargo install ripgrep
-fi
+# Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
+# Globals:
+#   DOTFILE_DIR
+# Arguments:
+#   path_to_file : file to install
+# Returns:
+#   None
+install::default() {
+  echo "Installing $1"
 
-# pyenv
-if type "pyenv" > /dev/null 2>&1 ; then
-	echo "pyenv does exist"
-else
-	echo "\n"
-	echo "pyenv does not exist!"
-	echo "\n"
-	sleep 0.1
-	sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
-		libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
-		libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && abort "Cannot use absoulte path."
+  [[ ! -e "$DOTFILE_DIR/home/$1" ]] &&
+    abort "$DOTFILE_DIR/home/$1 does not exist."
 
-	curl https://pyenv.run | bash
-	exec $SHELL
+  local dir="$(dirname "$1")"
+  local old_pwd="$(pwd)"
+  if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
+    [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
+    cd ~/"$dir"
+  else
+    cd
+  fi
 
-	pyenv install 3.9.7
-	pyenv global 3.9.7
-fi
+  ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" .
+  cd "$old_pwd"
+}
 
-echo "Finished installation!!\n"
+echo "Finished installation\n"
 echo "Enter following command and Restart a new terminal session:\n\tchsh -s \$(which zsh)\n"
