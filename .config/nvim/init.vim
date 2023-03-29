@@ -1,13 +1,18 @@
-runtime init/dein.init.vim
+# plugins
+runtime init/plug.init.vim
+#runtime init/dein.init.vim
+runtime init/coc.init.vim
+runtime init/git.init.vim
+
+# editing 
 runtime init/settings.init.vim
 "runtime init/defx.init.vim
+
+# airline
 runtime init/airline.init.vim
 "runtime init/lsp.init.vim
 "runtime init/easymotion.init.vim
 "runtime init/js.init.vim
-runtime init/coc.init.vim
-runtime init/git.init.vim
-
 
 "let g:deoplete#enable_at_startup = 1
 
