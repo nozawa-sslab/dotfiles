@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # zsh
 if type "zsh" > /dev/null 2>&1; then
@@ -32,7 +32,7 @@ main() {
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
   setup::vim
-  setup::gpg
+#  setup::gpg
   setup::misc
 
   if [[ -n "$install_deps" ]]; then
@@ -45,15 +45,14 @@ setup::shell() {
   install::default ".bashrc"
   install::default ".zshrc"
   install::default ".config/starship.toml"
-  install::default ".p10k.zsh"
 }
 
-setup::gpg() {
-
-}
+#setup::gpg() {
+#}
 
 setup::misc() {
   install::default ".clang-format"
+  install::default ".gitconfig"
 }
 
 setup::plugins_mac() {
@@ -128,6 +127,7 @@ setup::rust() {
   curl https://sh.rustup.rs -sSf | sh
   cargo install gitui
   cargo install git-delta
+  cargo install zoxide
 }
 
 setup::oss() {
@@ -155,6 +155,11 @@ setup::neovim() {
 
   sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  install::default ".config/nvim/init.vim"
+  install::default ".config/nvim/init/settings.init.vim"
+  install::default ".config/nvim/init/plug.init.vim"
+  install::default ".config/nvim/init/airline.init.vim"
+  install::default ".config/nvim/init/coc.init.vim"
 
   nvim +PlugInstall +qall
 }
@@ -176,6 +181,48 @@ setup::fzf() {
 	~/.fzf/install
 }
 
+
+######################
+#  helper functions  #
+######################
+
+# Print an error message and exit
+# Arguments:
+#   error_message [default: abort]
+# Returns:
+#   None
+abort() {
+  local message="abort"
+  [[ -n "$1" ]] && message="$1"
+  printf "[%s():%s] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  exit 1
+}
+
+# Prints the relative path from the current directory to the given path
+# Arguments:
+#   path
+# Returns:
+#   None
+# Dependencies:
+#   coreutils, python, ruby, or perl
+relative_path() {
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  if command -v realpath >/dev/null 2>&1; then
+    realpath --no-symlinks --relative-to=. "$1"
+  elif command -v perl >/dev/null 2>&1; then
+    perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
+  elif command -v ruby >/dev/null 2>&1; then
+    ruby -e \
+      "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c "import os; print(os.path.relpath('$1'), end='')"
+  elif command -v python2 >/dev/null 2>&1; then
+    python2 -c \
+      "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
+  else
+    abort "Needs coreutils, python, ruby, or perl."
+  fi
+}
 
 # Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
 # Globals:
