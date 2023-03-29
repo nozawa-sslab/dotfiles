@@ -1,6 +1,5 @@
+" editing
 set encoding=utf-8
-" 全角文字専用の設定
-" set ambiwidth=double
 " Tabによるコマンド補完の候補をステータスラインに表示
 set wildmenu
 " backspaceを効かせる
@@ -23,54 +22,6 @@ nmap <silent> <c-l> :wincmd l<CR>
 " Quickly insert an empty new line without entering insert mode
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
-"-----------------------"
-" 検索
-"-----------------------
-" 大文字小文字の区別なし
-set ignorecase
-" 検索結果ハイライト
-set hlsearch
-"-----------------------
-" 表示設定
-"-----------------------
-set t_Co=256
-" Enable 24-bit RGB color
-set termguicolors
-" Background Opa
-au ColorScheme * highlight Normal ctermbg=none guibg=none
-au ColorScheme iceberg highlight NonText ctermbg=none guibg=none
-au ColorScheme iceberg highlight LineNr ctermbg=none guibg=none
-hi CursorLineNr cterm=NONE ctermbg=237 ctermfg=253 guibg=#2a3158 guifg=#cdd1e6
-" language
-language en_US.UTF-8
-" 音消す
-set noerrorbells
-set vb t_vb=
-" 相対行番号
-set relativenumber
-set nu
-" カーソルがある行を明示
-set cursorline
-" インデント
-set smartindent
-" 下のステータスラインを常に表示 
-set laststatus=2
-
-set expandtab
-" シンタックスハイライト
-syntax enable
-" hlsearch
-hi Search ctermbg=34
-" マウスカーソルで移動できるように
-set mouse=a
-" Escの2回押しでハイライト消去
-nnoremap <Esc><Esc> :nohlsearch<CR>
-" parentheses match
-set showmatch
-" 行末移動
-noremap -1 $
-
-set noswapfile
 
 augroup fileTypeIndent
     autocmd!
@@ -89,8 +40,53 @@ augroup fileTypeIndent
     autocmd BufNewFile,BufRead *.hs setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.dart setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.rs setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.sh setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.rs setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
+"-----------------------"
+" 検索
+"-----------------------
+" 大文字小文字の区別なし
+set ignorecase
+" 検索結果ハイライト
+set hlsearch
+"-----------------------
+" 表示設定
+"-----------------------
+set t_Co=256
+" Enable 24-bit RGB color
+set termguicolors
+" Background color
+au ColorScheme * highlight Normal ctermbg=none guibg=none
+au ColorScheme iceberg highlight NonText ctermbg=none guibg=none
+au ColorScheme iceberg highlight LineNr ctermbg=none guibg=none
+hi CursorLineNr cterm=NONE ctermbg=237 ctermfg=253 guibg=#2a3158 guifg=#cdd1e6
+
+language en_US.UTF-8
+set noerrorbells
+set vb t_vb=
+set rnu
+set nu
+" カーソルがある行を明示
+set cursorline
+set smartindent
+" 下のステータスラインを常に表示 
+set laststatus=2
+" use <SPACE>s instead of a <TAB>
+set expandtab
+" syntax highlight
+syntax enable
+" hlsearch
+hi Search ctermbg=34
+set mouse=a
+nnoremap <Esc><Esc> :nohlsearch<CR>
+" parentheses match
+set showmatch
+noremap -1 $
+
+set noswapfile
+
 
 "----------------------------------------------------------
 " クリップボードからのペースト
