@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# zsh
-if type "zsh" > /dev/null 2>&1; then
-	echo "zsh does exist!"
-else
-	sudo apt-get install zsh
-fi
-
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/Library/dotfiles
 
@@ -47,6 +40,8 @@ setup::shell() {
   install::default ".tmux.conf"
   install::default ".config/starship.toml"
   install::default ".fzf.zsh"
+
+  sudo apt-get install zsh
 }
 
 #setup::gpg() {
@@ -113,6 +108,12 @@ setup::plugins_ubuntu() {
     pkg-config \
     unzip \
     curl
+
+  # Requred packages for building cPython with all options for Ubuntu.
+  sudo apt-get install build-essential gdb lcov pkg-config \
+      libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
+      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
+      lzma lzma-dev tk-dev uuid-dev zlib1g-dev
 }
 
 setup::deps_linux() {
