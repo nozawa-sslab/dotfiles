@@ -44,7 +44,9 @@ main() {
 setup::shell() {
   install::default ".bashrc"
   install::default ".zshrc"
+  install::default ".tmux.conf"
   install::default ".config/starship.toml"
+  install::default ".fzf.zsh"
 }
 
 #setup::gpg() {
@@ -70,6 +72,9 @@ setup::plugins_mac() {
     nnn \
     tmux
 
+  # install tmux plugin manager
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
   brew install \
@@ -93,6 +98,9 @@ setup::plugins_ubuntu() {
       ccls \
       nnn \
       tmux
+
+  # install tmux plugin manager
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
