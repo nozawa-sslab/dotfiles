@@ -10,7 +10,7 @@ fi
 
 # Key bindings
 # ------------
-source "/home/nozawa/.config/nvim/dein/repos/github.com/junegunn/fzf/shell/key-bindings.zsh"
+source "$HOME/.local/share/nvim/plugged/fzf/shell/key-bindings.zsh"
 
 if type "fzf" > /dev/null 2>&1; then
 	export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
