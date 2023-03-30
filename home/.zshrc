@@ -122,7 +122,6 @@ export LESS_TERMCAP_us=$'\e[1;4;32m'
 #############
 #  enhancd  *
 #############
-source $HOME/oss/enhancd/init.sh
 export ENHANCD_FILTER=fzf
 
 
@@ -162,7 +161,7 @@ zinit light-mode for \
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
-zinit ice wait lucid
+zinit ice as"command" src"init.sh"
 zinit light b4b4r07/enhancd
 zinit ice as"command" from"gh-r" \
           atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
