@@ -131,9 +131,6 @@ export ENHANCD_FILTER=fzf
 #############
 export VIMRUNTIME=$HOME/oss/neovim/runtime
 
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
-
 ###################
 # zinit (plugins) #
 ###################
@@ -193,3 +190,7 @@ bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 bindkey '^ ' autosuggest-accept
+
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+
