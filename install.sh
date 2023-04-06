@@ -141,6 +141,7 @@ setup::rust() {
   cargo install gitui
   cargo install git-delta
   cargo install zoxide
+  cargo install ripgrep
 }
 
 setup::oss() {

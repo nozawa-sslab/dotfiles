@@ -169,8 +169,6 @@ zinit ice as"command" from"gh-r" \
 zinit light starship/starship
 zinit ice wait lucid
 zinit light asdf-vm/asdf
-zinit ice wiat lucid
-zinit light BurntSushi/ripgrep
 # sharkdp/bat
 zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
