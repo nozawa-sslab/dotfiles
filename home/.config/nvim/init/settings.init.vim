@@ -6,7 +6,7 @@ set wildmenu
 set backspace=indent,eol,start
 " <leader> == space key
 nnoremap <Space> <Nop>
-nnoremap <Space> <Leader>
+let mapleader=" "
 
 set clipboard+=unnamedplus
 " remap Esc
