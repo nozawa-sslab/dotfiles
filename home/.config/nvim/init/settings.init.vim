@@ -5,7 +5,8 @@ set wildmenu
 " backspaceを効かせる
 set backspace=indent,eol,start
 " <leader> == space key
-let mapleader = "<Space>"
+nnoremap <Space> <Nop>
+nnoremap <Space> <Leader>
 
 set clipboard+=unnamedplus
 " remap Esc
