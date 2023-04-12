@@ -86,9 +86,12 @@ export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/T02RFRRBH44/
 # clang's {include, library} path
 export CPATH="/home/nozawa/.pyenv/versions/3.9.7/include/python3.9/:/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/numpy/core/include:/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
 export CPATH="/home/nozawa/.local/include:$CPATH"
+## for research
 export CPATH="/home/nozawa/research/mymmap:$CPATH"
+export CPATH=$HOME/oss/julia/usr/include:$CPATH
+export CPATH=$HOME/oss/julia/usr/include/julia:$CPATH
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
-export LD_LIBRARY_PATH="$CPATH:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="$CPATH:$LD_LIBRARY_PATH"
 
 #FPATH=~/.zsh/plug/zsh-completions:$FPATH
 
