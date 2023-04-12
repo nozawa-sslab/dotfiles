@@ -22,8 +22,10 @@ runtime init/airline.init.vim
 "let g:indentLine_char = '│'
 "set list listchars=tab:\|\ 
 
+let g:vim_markdown_folding_disabled = 1
 let g:previm_open_cmd = 'open -a Google\ Chrome'
 nnoremap :previm :PrevimOpen<CR>
+
 
 " JuliaFormatter
 "" normal mode mapping

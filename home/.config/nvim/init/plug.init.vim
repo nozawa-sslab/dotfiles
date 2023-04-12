@@ -12,14 +12,16 @@ Plug 'cocopon/iceberg.vim'
 
 " completion and linting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'godlygeek/tabular', {'for': 'md'}
+Plug 'preservim/vim-markdown', {'for': 'md'}
 
 " git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " util
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 
