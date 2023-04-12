@@ -84,7 +84,8 @@ export WORDCHARS=${WORDCHARS/\/}
 export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
 
 # clang's {include, library} path
-export CPATH="/home/nozawa/.pyenv/versions/3.9.7/include/python3.9/:/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/numpy/core/include:/usr/local/lib/python3.9/site-packages/numpy/core/include:/usr/local/opt/python@3.9/Frameworks/Python.framework/Versions/3.9/include/python3.9"
+export CPATH="/home/nozawa/.asdf/installs/python/3.9.7/include/python3.9/:"
+export CPATH=/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages/numpy/core/include:$CPATH
 export CPATH="/home/nozawa/.local/include:$CPATH"
 ## for research
 export CPATH="/home/nozawa/research/mymmap:$CPATH"
