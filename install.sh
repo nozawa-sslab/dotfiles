@@ -41,7 +41,7 @@ setup::shell() {
   install::default ".config/starship.toml"
   install::default ".fzf.zsh"
 
-  sudo apt-get install zsh
+  sudo dnf install zsh
 }
 
 #setup::gpg() {
@@ -81,17 +81,15 @@ setup::plugins_mac() {
     curl
 }
 
-setup::plugins_ubuntu() {
-  sudo add-apt-repository ppa:longsleep/golang-backports
-  sudo apt update
-  sudo apt upgrade
-  sudo apt install \
-      build-essential \
+setup::plugins_fedora() {
+  sudo dnf update -y
+  sudo dnf upgrade -y
+  sudo dnf install -y \
+      dnf-plugins-core \
       cmake \
       git \
       fd-find \
       ccls \
-      nnn \
       tmux
 
   # install tmux plugin manager
@@ -99,25 +97,22 @@ setup::plugins_ubuntu() {
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
-  sudo apt install \
+  sudo dnf install -y \
     ninja-build \
-    gettext \
-    libtool-bin \
     cmake \
-    g++ \
-    pkg-config \
+    gcc \
+    make \
     unzip \
+    gettext \
     curl
 
   # Requred packages for building cPython with all options for Ubuntu.
-  sudo apt-get install build-essential gdb lcov pkg-config \
-      libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
-      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
-      lzma lzma-dev tk-dev uuid-dev zlib1g-dev
+  sudo dnf install dnf-plugins-core
+  sudo dnf builddep python3
 }
 
 setup::deps_linux() {
-  setup::plugins_ubuntu
+  setup::plugins_fedora
 }
 
 setup::deps_mac() {
