@@ -1,12 +1,12 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/nozawa/.config/nvim/dein/repos/github.com/junegunn/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/nozawa/.config/nvim/dein/repos/github.com/junegunn/fzf/bin"
+if [[ ! "$PATH" == */home/nozawa/.fzf/bin* ]]; then
+  PATH="/home/nozawa/.fzf/bin:${PATH}"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/home/nozawa/.config/nvim/dein/repos/github.com/junegunn/fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "$HOME/.local/share/nvim/plugged/fzf/shell/completion.zsh" 2> /dev/null
 
 # Key bindings
 # ------------
@@ -17,11 +17,19 @@ if type "fzf" > /dev/null 2>&1; then
 	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 	export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 	export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
+  # CTRL-/ to toggle small preview window to see the full command
+  # CTRL-Y to copy the command into clipboard using pbcopy
+  export FZF_CTRL_R_OPTS=" \
+    --preview 'echo {}' --preview-window up:3:hidden:wrap \
+    --bind 'ctrl-/:toggle-preview' \
+    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' \
+    --color header:italic \
+    --header 'Press CTRL-Y to copy command into clipboard'"
 fi
 
 alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | delta'"
 
 
 # fshow - git commit browser

@@ -24,6 +24,8 @@ alias pyb='python -m compileall'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias crontab='crontab -i'
+alias ..='cd ../'
+alias cd..='cd ../'
 
 # Neovim
 alias vi='nvim'
@@ -47,8 +49,6 @@ function  jpt(){
 }
 
 source $HOME/.cargo/env
-
-source ~/research/serialize/mymethod/setup.sh
 
 autoload -Uz compinit && compinit
 
@@ -76,7 +76,9 @@ export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
 export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
 export PYTHONPATH="/home/nozawa/research/mymmap/:$PYTHONPATH"
-export PYTHONPATH="/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages"
+export PYTHONPATH="/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages:$PYTHONPATH"
+export PYTHONPATH=/home/nozawa/research/pyext_util/build/lib.linux-x86_64-3.9/:$PYTHONPATH
+export PYTHONPATH=/home/nozawa/research/master-proposal/build/lib.linux-x86_64-3.9/:$PYTHONPATH
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -84,13 +86,15 @@ export WORDCHARS=${WORDCHARS/\/}
 export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
 
 # clang's {include, library} path
-export CPATH="/home/nozawa/.asdf/installs/python/3.9.7/include/python3.9/:"
+export CPATH="/home/nozawa/.asdf/installs/python/3.9.7/include/python3.9/"
 export CPATH=/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages/numpy/core/include:$CPATH
 export CPATH="/home/nozawa/.local/include:$CPATH"
 ## for research
 export CPATH="/home/nozawa/research/mymmap:$CPATH"
 export CPATH=$HOME/oss/julia/usr/include:$CPATH
 export CPATH=$HOME/oss/julia/usr/include/julia:$CPATH
+export CPATH=$HOME/research/directchange-prototype/include:$CPATH
+export CPATH=$HOME/research/master-proposal/include:$CPATH
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
 export LD_LIBRARY_PATH="$CPATH:$LD_LIBRARY_PATH"
 
@@ -133,6 +137,40 @@ export ENHANCD_FILTER=fzf
 #   NVIM    *
 #############
 export VIMRUNTIME=$HOME/oss/neovim/runtime
+
+#########
+#  NNN  #
+#########
+n ()
+{
+    # Block nesting of nnn in subshells
+    if [[ "${NNNLVL:-0}" -ge 1 ]]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
+    # see. To cd on quit only on ^G, remove the "export" and make sure not to
+    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
+    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    # The backslash allows one to alias n to nnn if desired without making an
+    # infinitely recursive alias
+    \nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
 
 ###################
 # zinit (plugins) #
