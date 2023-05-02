@@ -3,6 +3,7 @@ call plug#begin()
 " editing
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
+Plug 'preservim/tagbar'
 
 " airline
 Plug 'vim-airline/vim-airline'
