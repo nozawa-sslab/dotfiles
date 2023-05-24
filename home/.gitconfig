@@ -13,8 +13,10 @@
         dfn = diff --name-only
         ph = push origin HEAD
         ch = checkout
+        fd = !zsh -ic 'git-fuzzy-diff \"$@\"' x
+	fl = !zsh -ic 'git-fuzzy-log \"$@\"' x
 [interactive]
-        diffFilter = delta --color-only
+        diffFilter = delta --color-only --line-numbers
 [color]
         ui = true
 [color "diff-highlight"]
