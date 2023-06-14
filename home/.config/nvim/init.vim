@@ -7,6 +7,7 @@ runtime init/plug.init.vim
 "runtime init/dein.init.vim
 runtime init/coc.init.vim
 runtime init/git.init.vim
+runtime init/telescope.init.vim
 
 " airline
 runtime init/airline.init.vim
