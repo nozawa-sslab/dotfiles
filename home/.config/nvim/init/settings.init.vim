@@ -8,7 +8,7 @@ set backspace=indent,eol,start
 nnoremap <Space> <Nop>
 let mapleader=" "
 
-set clipboard+=unnamedplus
+set clipboard=unnamedplus
 " remap Esc
 :imap jj <Esc>
 " remap :w
@@ -95,9 +95,9 @@ set noswapfile
 
 
 "----------------------------------------------------------
-" クリップボードからのペースト
+" pasting from clipboard
 "----------------------------------------------------------
-" 挿入モードでクリップボードからペーストする時に自動でインデントさせないようにする
+" prevent messing with indentation on pasting
 if &term =~ "xterm"
   let &t_SI .= "\e[?2004h"
   let &t_EI .= "\e[?2004l"
@@ -112,7 +112,7 @@ if &term =~ "xterm"
 endif
 
 "-------------------
-" undo 永続化
+" persistent undo
 "-------------------
 if has('persistent_undo')
 	let undo_path = expand('~/.vim/undo')

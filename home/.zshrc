@@ -35,6 +35,7 @@ alias vset='nvim ~/.config/nvim/init/settings.init.vim'
 alias dinit='nvim ~/.config/nvim/init/dein.init.vim'
 alias vtoml='nvim ~/.config/nvim/dein.toml'
 alias vlazy='nvim ~/.config/nvim/dein_lazy.toml'
+export VIMRC=$HOME/.config/nvim/init.vim
 
 # git
 alias gs='git status'
@@ -71,6 +72,7 @@ export PATH="$HOME/oss/bin:$PATH"
 export PATH="$HOME/node_modules/:$PATH"
 export PATH="$HOME/.npm_global/bin:$PATH"
 export PATH="$HOME/oss/julia/:$PATH"
+export PATH="$HOME/.asdf/installs/python/3.9.7/bin/:$PATH"
 
 export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
 
@@ -78,7 +80,10 @@ export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-package
 export PYTHONPATH="/home/nozawa/research/mymmap/:$PYTHONPATH"
 export PYTHONPATH="/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages:$PYTHONPATH"
 export PYTHONPATH=/home/nozawa/research/pyext_util/build/lib.linux-x86_64-3.9/:$PYTHONPATH
-export PYTHONPATH=/home/nozawa/research/master-proposal/build/lib.linux-x86_64-3.9/:$PYTHONPATH
+export PYTHONPATH=/home/nozawa/research/master-proposal/python/build/lib.linux-x86_64-3.9/:$PYTHONPATH
+export PYTHONPATH=/home/nozawa/research/master-proposal/meta-server/protos/python:$PYTHONPATH
+export PYTHONPATH="/home/nozawa/oss/yapf/:$PYTHONPATH"
+export PYTHONPATH=/home/nozawa/oss/arrow/python:$PYTHONPATH
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -95,8 +100,16 @@ export CPATH=$HOME/oss/julia/usr/include:$CPATH
 export CPATH=$HOME/oss/julia/usr/include/julia:$CPATH
 export CPATH=$HOME/research/directchange-prototype/include:$CPATH
 export CPATH=$HOME/research/master-proposal/include:$CPATH
+export CPATH=$HOME/research/master-proposal/meta-server:$CPATH
+export CPATH=$HOME/oss/arrow/cpp/build/src/arrow:$CPATH
+export CPATH=$HOME/oss/dist/include/:$CPATH
 export LD_LIBRARY_PATH="/home/nozawa/.local/lib:$LIBRARY_PATH"
 export LD_LIBRARY_PATH="$CPATH:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$HOME/oss/dist/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$HOME/research/master-proposal/meta-server/build/:$LD_LIBRARY_PATH"
+
+# julia's LOAD_PATh
+export JULIA_LOAD_PATH="/home/nozawa/research/master-proposal/julia/src:$JULIA_LOAD_PATH"
 
 #FPATH=~/.zsh/plug/zsh-completions:$FPATH
 
@@ -214,6 +227,9 @@ zinit light asdf-vm/asdf
 # sharkdp/bat
 zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
+# extrawurst/gitui
+zinit ice from"gh-r" as"program"
+zinit light extrawurst/gitui
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
@@ -233,3 +249,4 @@ bindkey '^ ' autosuggest-accept
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
+ulimit -n 65536

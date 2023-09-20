@@ -37,6 +37,15 @@ vnoremap <localleader>jf :JuliaFormatterFormat<CR>
 "let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'
 
 colorscheme iceberg
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    
+  },
+}
+EOF
+
 "colorscheme solarized
 "set background=dark
 
