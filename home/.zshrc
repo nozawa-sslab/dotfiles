@@ -261,12 +261,6 @@ zinit ice as"command" from"gh-r" \
 zinit light starship/starship
 zinit ice wait lucid
 zinit light asdf-vm/asdf
-# sharkdp/bat
-zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
-zinit light sharkdp/bat
-# extrawurst/gitui
-zinit ice from"gh-r" as"program"
-zinit light extrawurst/gitui
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]=underline
