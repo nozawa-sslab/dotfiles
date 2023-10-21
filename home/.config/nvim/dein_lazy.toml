@@ -1,0 +1,12 @@
+
+[[plugins]]
+repo = 'previm/previm'
+on_ft = ['md']
+
+[[plugins]]
+repo = 'mattn/vim-maketable'
+on_ft = ['md']
+
+[[plugins]]
+repo = 'kdheepak/JuliaFormatter.vim'
+on_ft = ['jl']

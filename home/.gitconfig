@@ -1,0 +1,37 @@
+[user]
+        name = Masanobu Nozawa
+        email = masa.nozawa@sslab.ics.keio.ac.jp
+[core]
+        editor = nvim
+        pager = delta
+[alias]
+        graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+        st = status
+        ci = commit -m
+        br = branch
+        df = diff
+        dfn = diff --name-only
+        ph = push origin HEAD
+        ch = checkout
+        fd = !zsh -ic 'git-fuzzy-diff \"$@\"' x
+	fl = !zsh -ic 'git-fuzzy-log \"$@\"' x
+[interactive]
+        diffFilter = delta --color-only --line-numbers
+[color]
+        ui = true
+[color "diff-highlight"]
+        oldNormal = red bold
+        oldHighlight = red bold 52
+        newNormal = green bold
+        newHighlight = green bold 22
+[color "diff"]
+        meta = 11
+        frag = magenta bold
+        func = 146 bold
+        commit = yellow bold
+        old = red bold
+        new = green bold
+        whitespace = red reverse
+[delta]
+        side-by-side = true
+        line-nubers = true

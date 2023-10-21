@@ -1,0 +1,54 @@
+Before:
+  call ale#assert#SetUpFixerTest('python', 'isort')
+
+  silent cd ..
+  silent cd command_callback
+  let g:dir = getcwd()
+  let b:bin_dir = has('win32') ? 'Scripts' : 'bin'
+
+After:
+  call ale#assert#TearDownFixerTest()
+
+  unlet! g:dir
+  unlet! b:bin_dir
+
+Execute(The isort callback should return the correct default values):
+  AssertEqual
+  \ 0,
+  \ ale#fixers#isort#Fix(bufnr(''))
+
+  silent execute 'file ' . fnameescape(g:dir . '/python_paths/with_virtualenv/subdir/foo/bar.py')
+  AssertEqual
+  \ {
+  \   'cwd': '%s:h',
+  \   'command': ale#Escape(ale#path#Simplify(g:dir . '/python_paths/with_virtualenv/env/' . b:bin_dir . '/isort')) . ' -',
+  \ },
+  \ ale#fixers#isort#Fix(bufnr(''))
+
+Execute(The isort callback should respect custom options):
+  let g:ale_python_isort_options = '--multi-line=3 --trailing-comma'
+
+  AssertEqual
+  \ 0,
+  \ ale#fixers#isort#Fix(bufnr(''))
+
+  silent execute 'file ' . fnameescape(g:dir . '/python_paths/with_virtualenv/subdir/foo/bar.py')
+  AssertEqual
+  \ {
+  \   'cwd': '%s:h',
+  \   'command': ale#Escape(ale#path#Simplify(g:dir . '/python_paths/with_virtualenv/env/' . b:bin_dir . '/isort'))
+  \     . ' --multi-line=3 --trailing-comma -',
+  \ },
+  \ ale#fixers#isort#Fix(bufnr(''))
+
+Execute(Pipenv is detected when python_isort_auto_pipenv is set):
+  let g:ale_python_isort_auto_pipenv = 1
+
+  call ale#test#SetFilename('../python_fixtures/pipenv/whatever.py')
+
+  AssertEqual
+  \ {
+  \   'cwd': '%s:h',
+  \   'command': ale#Escape('pipenv') . ' run isort -'
+  \ },
+  \ ale#fixers#isort#Fix(bufnr(''))

@@ -1,0 +1,33 @@
+[cmd_duration]
+disabled = true
+
+[directory]
+truncation_length = 100
+truncate_to_repo = false
+style = "bold #719bff"
+
+[hostname]
+#style = "bold #ff5a00"
+style = "bold #f0f8ff"
+
+[git_branch]
+style = "bold #fd9bac"
+
+[perl]
+disabled = true
+
+[python]
+python_binary = "python3"
+
+[time]
+disabled = false
+format = '[\[$time\]](#cddfff) '
+time_format = "%T"
+utc_time_offset = "+9"
+
+[username]
+style_user = "bold #ffb9c7"
+style_root = "bold #ff4100"
+
+[vagrant]
+disabled = true
