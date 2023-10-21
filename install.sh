@@ -30,7 +30,7 @@ main() {
 
   if [[ -n "$install_deps" ]]; then
     echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
-    setup::deps
+    #setup::deps
   fi
 }
 
@@ -41,8 +41,6 @@ setup::shell() {
   install::default ".config/starship.toml"
   install::default ".fzf.zsh"
   install::default "fzf-git.sh"
-
-  sudo apt-get install zsh
 }
 
 #setup::gpg() {
@@ -59,13 +57,9 @@ setup::misc() {
 
 setup::plugins_mac() {
   xcode-select --install
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew update
   brew install \
     cmake \
-    fd \
-    ccls \
-    nnn \
     tmux
 
   # install tmux plugin manager
@@ -83,7 +77,6 @@ setup::plugins_mac() {
 }
 
 setup::plugins_ubuntu() {
-  sudo add-apt-repository ppa:longsleep/golang-backports
   sudo apt update
   sudo apt upgrade
   sudo apt install \
@@ -170,32 +163,11 @@ setup::neovim() {
 
   sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
   install::default ".config/nvim/init.vim"
-  install::default ".config/nvim/init/settings.init.vim"
-  install::default ".config/nvim/init/plug.init.vim"
-  install::default ".config/nvim/init/airline.init.vim"
-  install::default ".config/nvim/init/coc.init.vim"
 
   nvim +PlugInstall +qall
 }
-
-setup::dein() {
-	mkdir -p $HOME/.config/nvim/dein
-
-  local NVIM_CONFIG_DIR=$HOME/.config/nvim
-	curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > $NVIM_CONFIG_DIR/dein/installer.sh
-	sh $NVIM_CONFIG_DIR/dein/installer.sh $NVIM_CONFIG_DIR/dein
-
-  # copy *.init.vim
-	cp -r $HOME/dotfiles/.config/nvim/init* $NVIM_CONFIG_DIR
-	cp $HOME/dotfiles/.config/nvim/*toml $NVIM_CONFIG_DIR
-}
-
-setup::fzf() {
-	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-	~/.fzf/install
-}
-
 
 ######################
 #  helper functions  #
@@ -222,15 +194,15 @@ abort() {
 #   coreutils, python, ruby, or perl
 relative_path() {
   [[ "$#" != 1 ]] && abort "Wrong number of arguments."
-  if command -v realpath >/dev/null 2>&1; then
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -c "import os; print(os.path.relpath('$1'), end='')"
+  elif command -v realpath >/dev/null 2>&1; then
     realpath --no-symlinks --relative-to=. "$1"
   elif command -v perl >/dev/null 2>&1; then
     perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
   elif command -v ruby >/dev/null 2>&1; then
     ruby -e \
       "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
-  elif command -v python3 >/dev/null 2>&1; then
-    python3 -c "import os; print(os.path.relpath('$1'), end='')"
   elif command -v python2 >/dev/null 2>&1; then
     python2 -c \
       "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"

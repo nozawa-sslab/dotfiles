@@ -64,7 +64,8 @@ export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-export JULIA_DIR="$HOME/julia-1.6.2"
+export PATH="$HOME/.asdf/installs/python/3.9.7/bin/:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$JULIA_DIR/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -72,18 +73,9 @@ export PATH="$HOME/oss/bin:$PATH"
 export PATH="$HOME/node_modules/:$PATH"
 export PATH="$HOME/.npm_global/bin:$PATH"
 export PATH="$HOME/oss/julia/:$PATH"
-export PATH="$HOME/.asdf/installs/python/3.9.7/bin/:$PATH"
 
-export PROPOSAL_DIR="$HOME/research/serialize/mymethod"
-
-export PYTHONPATH="/home/nozawa/.pyenv/versions/3.9.7/lib/python3.9/site-packages/"
-export PYTHONPATH="/home/nozawa/research/mymmap/:$PYTHONPATH"
 export PYTHONPATH="/home/nozawa/.asdf/installs/python/3.9.7/lib/python3.9/site-packages:$PYTHONPATH"
-export PYTHONPATH=/home/nozawa/research/pyext_util/build/lib.linux-x86_64-3.9/:$PYTHONPATH
-export PYTHONPATH=/home/nozawa/research/master-proposal/python/build/lib.linux-x86_64-3.9/:$PYTHONPATH
-export PYTHONPATH=/home/nozawa/research/master-proposal/meta-server/protos/python:$PYTHONPATH
 export PYTHONPATH="/home/nozawa/oss/yapf/:$PYTHONPATH"
-export PYTHONPATH=/home/nozawa/oss/arrow/python:$PYTHONPATH
 
 # for backward-kill-word
 export WORDCHARS=${WORDCHARS/\/}
@@ -244,7 +236,7 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey '^ ' autosuggest-accept
+bindkey '^j' autosuggest-accept
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
