@@ -39,7 +39,6 @@ setup::shell() {
   install::default ".zshrc"
   install::default ".tmux.conf"
   install::default ".config/starship.toml"
-  install::default ".fzf.zsh"
   install::default "fzf-git.sh"
 }
 
