@@ -51,7 +51,8 @@ function  jpt(){
 
 source $HOME/.cargo/env
 
-autoload -Uz compinit && compinit
+# 1password
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 export TZ=Asia/Tokyo
 export TERM=xterm-256color
@@ -275,7 +276,7 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey '^j' autosuggest-accept
+bindkey '^k' autosuggest-accept
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
