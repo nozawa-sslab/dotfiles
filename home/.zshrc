@@ -51,9 +51,6 @@ function  jpt(){
 
 source $HOME/.cargo/env
 
-# 1password
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
-
 export TZ=Asia/Tokyo
 export TERM=xterm-256color
 
@@ -127,6 +124,15 @@ export LESS_TERMCAP_us=$'\e[1;4;32m'
 # se      rmso      stop standout
 # us      smul      start underline
 # ue      rmul      stop underline
+
+# language
+export LANG=en_US.UTF-8
+
+# 1password
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
+# radigo
+export RADIGO_HOME=$HOME/records/radio
 
 #########
 #  FZF  #
