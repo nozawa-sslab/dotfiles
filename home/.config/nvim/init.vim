@@ -116,6 +116,7 @@ set cursorline
 set laststatus=2
 set showmatch
 set mouse=a
+set nofoldenable
 
 syntax enable
 
