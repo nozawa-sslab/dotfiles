@@ -72,9 +72,9 @@ nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
 
 if has('nvim')
-  set clipboard=unnamedplus
+  set clipboard+=unnamedplus
 else
-  set clipboard=unnamed,autoselect,unnamedplus
+  set clipboard+=unnamed,autoselect,unnamedplus
 endif
 
 filetype on
