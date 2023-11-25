@@ -1,3 +1,5 @@
+scriptencoding utf-8 " The encoding used in script
+
 "-------------------
 " plugins
 "-------------------
@@ -42,7 +44,8 @@ call plug#end()
 " editing 
 "-----------------------"
 language en_US
-set encoding=utf-8
+set encoding=utf-8 " The encoding displayed
+set fileencoding=utf-8 " The encoding written to file
 set backspace=indent,eol,start
 set expandtab
 set shiftwidth=2
