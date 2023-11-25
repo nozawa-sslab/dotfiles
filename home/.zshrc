@@ -21,8 +21,10 @@ alias chrome='open -a "google chrome"'
 alias clip='(){cat $1 | pbcopy}'
 alias lab='jupyter lab --no-browser --port=8888'
 alias pyb='python -m compileall'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
+if ! [[ $(uname) == "Darwin" ]]; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
 alias crontab='crontab -i'
 alias ..='cd ../'
 alias cd..='cd ../'
@@ -282,7 +284,7 @@ bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey '^k' autosuggest-accept
+bindkey '^ ' autosuggest-accept
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
