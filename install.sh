@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+# zsh
+if type "zsh" > /dev/null 2>&1; then
+	echo "zsh does exist!"
+else
+	sudo apt-get install zsh
+fi
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/Library/dotfiles
@@ -25,44 +32,43 @@ main() {
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
   setup::vim
-#  setup::gpg
+  setup::gpg
   setup::misc
 
   if [[ -n "$install_deps" ]]; then
     echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
-    #setup::deps
+    setup::deps
   fi
 }
 
 setup::shell() {
   install::default ".bashrc"
   install::default ".zshrc"
-  install::default ".tmux.conf"
   install::default ".config/starship.toml"
-  install::default "fzf-git.sh"
 }
 
-#setup::gpg() {
-#}
+setup::gpg() {
 
-setup::vim() {
-  install::default ".vimrc"
 }
 
 setup::misc() {
   install::default ".clang-format"
-  install::default ".gitconfig"
 }
 
 setup::plugins_mac() {
   xcode-select --install
+
+  # Install Homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
   brew update
   brew install \
     cmake \
-    tmux
-
-  # install tmux plugin manager
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fd \
+    ccls \
+    nnn \
+    tmux \
+    ripgrep
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
@@ -85,10 +91,8 @@ setup::plugins_ubuntu() {
       fd-find \
       ccls \
       nnn \
-      tmux
-
-  # install tmux plugin manager
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+      tmux \
+      ripgrep
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
@@ -101,12 +105,6 @@ setup::plugins_ubuntu() {
     pkg-config \
     unzip \
     curl
-
-  # Requred packages for building cPython with all options for Ubuntu.
-  sudo apt-get install build-essential gdb lcov pkg-config \
-      libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
-      libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev \
-      lzma lzma-dev tk-dev uuid-dev zlib1g-dev
 }
 
 setup::deps_linux() {
@@ -133,8 +131,9 @@ setup::rust() {
   curl https://sh.rustup.rs -sSf | sh
   cargo install gitui
   cargo install git-delta
+  cargo install lsd
   cargo install zoxide
-  cargo install ripgrep
+  cargo install bat
 }
 
 setup::oss() {
@@ -163,14 +162,14 @@ setup::neovim() {
   sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-  install::default ".config/nvim/init.vim"
-
   nvim +PlugInstall +qall
 }
 
 setup::fzf() {
   git clone -depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install
+  rm ~/.fzf.zsh
+  install::default ".fzf.zsh"
 }
 
 ######################
@@ -200,8 +199,6 @@ relative_path() {
   [[ "$#" != 1 ]] && abort "Wrong number of arguments."
   if command -v python3 >/dev/null 2>&1; then
     python3 -c "import os; print(os.path.relpath('$1'), end='')"
-  elif command -v realpath >/dev/null 2>&1; then
-    realpath --no-symlinks --relative-to=. "$1"
   elif command -v perl >/dev/null 2>&1; then
     perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
   elif command -v ruby >/dev/null 2>&1; then
