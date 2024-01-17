@@ -9,6 +9,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
 Plug 'preservim/tagbar'
 Plug 'mcchrish/nnn.vim'
+Plug 'stevearc/aerial.nvim'
 
 " airline
 Plug 'vim-airline/vim-airline'
@@ -33,7 +34,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.4' }
 
 " session
 Plug 'tpope/vim-obsession'
@@ -43,7 +43,7 @@ call plug#end()
 "-----------------------"
 " editing 
 "-----------------------"
-language en_US
+language en_US.utf-8
 set encoding=utf-8 " The encoding displayed
 set fileencoding=utf-8 " The encoding written to file
 set backspace=indent,eol,start
@@ -237,14 +237,6 @@ nmap <leader>rn <Plug>(coc-rename)
 command! -nargs=0 Format :call CocActionAsync('format')
 
 "-------------------
-" telescope.nvim
-"-------------------
-:command FF Telescope find_files
-:command FG Telescope live_grep
-:command FB Telescope buffers
-:command FH Telescope help_tags
-
-"-------------------
 " vim-airline
 "-------------------
 "let g:airline_theme = 'solarized'
@@ -270,3 +262,12 @@ nnoremap <C-n> :bn<CR>
 colorscheme iceberg
 "colorscheme solarized
 "set background=dark
+
+"-------------------
+" lua
+"-------------------
+:let &runtimepath.=',~/.config/nvim/lua'
+lua << END
+require("aerial-setup")
+require("treesitter")
+END
