@@ -1,4 +1,23 @@
-[battery]
+command_timeout = 1500
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$python\
+$sudo\
+$line_break\
+$time\
+$os\
+$shell
+"""
+
+[cmd_duration]
 disabled = true
 
 [directory]
@@ -7,17 +26,14 @@ truncate_to_repo = false
 style = "bold #719bff"
 
 [hostname]
-#style = "bold #ff5a00"
-style = "bold #f0f8ff"
+style = "bold #ff5a00"
 
 [git_branch]
 style = "bold #fd9bac"
 
-[perl]
-disabled = true
-
 [python]
 python_binary = "python3"
+symbol = ''
 
 [time]
 disabled = false
@@ -29,5 +45,3 @@ utc_time_offset = "+9"
 style_user = "bold #ffb9c7"
 style_root = "bold #ff4100"
 
-[vagrant]
-disabled = true
