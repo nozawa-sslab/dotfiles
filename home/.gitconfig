@@ -3,7 +3,7 @@
         email = masa.nozawa@sslab.ics.keio.ac.jp
 [core]
         editor = nvim
-        pager = delta
+#        pager = delta
 [alias]
         graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
         st = status
@@ -14,7 +14,7 @@
         ph = push origin HEAD
         ch = checkout
         fd = !zsh -ic 'git-fuzzy-diff \"$@\"' x
-	fl = !zsh -ic 'git-fuzzy-log \"$@\"' x
+	      fl = !zsh -ic 'git-fuzzy-log \"$@\"' x
 [interactive]
         diffFilter = delta --color-only --line-numbers
 [color]
