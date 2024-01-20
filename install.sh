@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # zsh
 if type "zsh" > /dev/null 2>&1; then
@@ -44,15 +44,17 @@ main() {
 setup::shell() {
   install::default ".bashrc"
   install::default ".zshrc"
-  install::default ".config/starship.toml"
+  install::default ".p10k.zsh"
 }
 
-setup::gpg() {
-
-}
+#setup::gpg() {
+#
+#}
 
 setup::misc() {
   install::default ".clang-format"
+  install::default ".gitconfig"
+  install::default ".tmux.conf"
 }
 
 setup::plugins_mac() {
@@ -66,9 +68,7 @@ setup::plugins_mac() {
     cmake \
     fd \
     ccls \
-    nnn \
-    tmux \
-    ripgrep
+    tmux
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
@@ -90,9 +90,7 @@ setup::plugins_ubuntu() {
       git \
       fd-find \
       ccls \
-      nnn \
-      tmux \
-      ripgrep
+      tmux
 
   # Required packages for neovim compile. There are some duplicates with above,
   # but we will keep them for the time being.
@@ -129,11 +127,6 @@ setup::deps() {
 setup::rust() {
   # Install rust related
   curl https://sh.rustup.rs -sSf | sh
-  cargo install gitui
-  cargo install git-delta
-  cargo install lsd
-  cargo install zoxide
-  cargo install bat
 }
 
 setup::oss() {
@@ -141,28 +134,23 @@ setup::oss() {
     mkdir -p $OSS_DIR;
   fi
   setup::neovim
-  setup::fzf
 }
 
 setup::neovim() {
+  install::default ".config/nvim"
   local nvim_dir=$OSS_DIR/neovim
   local old_pwd="$(pwd)"
-  if [ -d nvim_dir ]; then
-    return
+  if ! command -v "nvim" &> /dev/null; then
+    if [ ! -d nvim_dir ]; then
+      git clone https://github.com/neovim/neovim $nvim_dir
+    fi
+
+    cd "$nvim_dir"
+    git checkout stable
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+    cd "$old_pwd"
   fi
-
-  git clone https://github.com/neovim/neovim $nvim_dir
-
-  cd "$nvim_dir"
-  git checkout stable
-  make CMAKE_BUILD_TYPE=RelWithDebInfo
-  sudo make install
-  cd "$old_pwd"
-
-  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-  nvim +PlugInstall +qall
 }
 
 setup::fzf() {

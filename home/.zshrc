@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 setopt no_beep
 
 exists() { type "$1" > /dev/null 2>&1; }
@@ -10,7 +17,6 @@ if type "lsd" > /dev/null 2>&1; then
 else
 	alias ls='ls --color=auto'
 fi
-
 alias zrc='nvim ~/.zshrc'
 alias vrc='nvim ~/.vimrc'
 alias rel='exec $SHELL -l'
@@ -21,8 +27,7 @@ alias pbpaste='xclip -selection clipboard -o'
 
 # Neovim
 alias vi='nvim'
-alias vinit='nvim ~/.config/nvim/init.vim'
-alias vset='nvim ~/.config/nvim/init/settings.init.vim'
+alias vinit='nvim ~/.config/nvim/init.lua'
 
 # git
 alias gs='git status'
@@ -75,10 +80,10 @@ path=(
   ~/oss/bin,
 )
 
-# environment variables unique to the local machine
-if [ -e "$HOME/.zsh/path.zsh" ]
+# local .zshrc
+if [ -e "$HOME/.zshrc_local.zsh" ]
 then
-  source "$HOME/.zsh/path.zsh"
+  source "$HOME/.zshrc_local.zsh"
 fi
 
 export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
@@ -121,13 +126,54 @@ bindkey "^E" end-of-line
 #########
 #  FZF  #
 #########
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ -f ~/.fzf.zsh ]]; then
+  source ~/.fzf.zsh
+  
+  if type "fzf" > /dev/null 2>&1; then
+          export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --preview "bat --color=always --style=header,grid --line-range :100 {}"'
+          export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+          export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+          export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
+  fi
+
+  alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+  _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+  _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | delta'"
+
+
+  # fshow - git commit browser
+  fshow() {
+    git log --graph --color=always \
+        --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview="$_viewGitLogLine" \
+        --bind "ctrl-m:execute:
+                  (grep -o '[a-f0-9]\{7\}' | head -1 |
+                  xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                  {}
+  FZF-EOF"
+  }
+
+  # fshow_preview - git commit browser with previews
+  fshow_preview() {
+      glNoGraph |
+          fzf --no-sort --reverse --tiebreak=index --no-multi \
+              --ansi --preview="$_viewGitLogLine" \
+                  --header "enter to view, ctrl-w to copy hash" \
+                  --bind "enter:execute:$_viewGitLogLine   | less -R" \
+                  --bind "ctrl-w:execute:$_gitLogLineToHash | pbcopy" \
+                                  --height 100% \
+                                  --border
+  } 
+fi
+
 
 #############
 #  enhancd  *
 #############
-source $HOME/oss/enhancd/init.sh
-export ENHANCD_FILTER=fzf
+if [[ -f $HOME/oss/enhancd/init.sh ]]; then
+  source $HOME/oss/enhancd/init.sh
+  export ENHANCD_FILTER=fzf
+fi
 
 #############
 #   nvim    *
@@ -179,11 +225,39 @@ bindkey '^ ' autosuggest-accept
 zinit light zsh-users/zsh-completions
 
 zinit ice wait lucid
-zinit light b4b4r07/enhancd
-zinit ice as"command" from"gh-r" \
-  atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-  atpull"%atclone" src"init.zsh"
-zinit light starship/starship
-zinit ice wait lucid
 zinit light asdf-vm/asdf
 
+# Load powerlevel10k theme
+zinit ice depth"1" # git clone depth
+zinit light romkatv/powerlevel10k
+
+# fzf
+zinit ice atclone"./install"
+zinit light junegunn/fzf
+
+# ripgrep
+zinit ice from"gh-r" as"program"
+zinit light BurntSushi/ripgrep
+
+# bat
+zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
+
+# lsd
+zinit ice from"gh-r" as"program" mv"lsd* -> lsd" pick"lsd/lsd"
+zinit light lsd-rs/lsd
+
+# gitui
+zinit ice from"gh-r" as"program"
+zinit light extrawurst/gitui
+
+# zoxide
+zinit ice from"gh-r" as"program"
+zinit light ajeetdsouza/zoxide
+
+# delta
+zinit ice from"gh-r" as"program" mv"delta* -> delta" pick"delta/delta"
+zinit light dandavison/delta
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
