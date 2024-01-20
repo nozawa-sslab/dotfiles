@@ -86,8 +86,6 @@ then
   source "$HOME/.zshrc_local.zsh"
 fi
 
-export SLACK_INCOMING_WEBHOOK_URL="https://hooks.slack.com/services/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"
-
 export LESS='-g -i -M -R -W -z-4 -j20'
 #  --no-init --quit-if-one-screen
 export LESS_TERMCAP_mb=$'\e[1;69m'
