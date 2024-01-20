@@ -31,7 +31,7 @@ main() {
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
-  setup::vim
+  setup::neovim
   setup::gpg
   setup::misc
 
