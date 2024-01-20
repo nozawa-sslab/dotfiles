@@ -5,6 +5,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# local .zshrc
+if [ -e "$HOME/.zshrc_local.zsh" ]
+then
+  source "$HOME/.zshrc_local.zsh"
+fi
+
 setopt no_beep
 
 exists() { type "$1" > /dev/null 2>&1; }
@@ -31,11 +37,6 @@ alias vinit='nvim ~/.config/nvim/init.lua'
 
 # git
 alias gs='git status'
-
-# notification
-if exists "python3"; then
-  alias notify='python3 ~/notification/notify.py'
-fi
 
 ##############
 # Completion #
@@ -67,7 +68,8 @@ setopt share_history
 ###########################
 export TZ=Asia/Tokyo
 export TERM=xterm-256color
-export EDITOR="/usr/local/bin/nvim"
+export EDITOR=nvim
+export VISUAL=$EDITOR
 export MYVIMRC="$HOME/.config/nvim/init.vim"
 export WORDCHARS=${WORDCHARS/\/}
 
@@ -79,12 +81,6 @@ path=(
   ~/.cargo/bin,
   ~/oss/bin,
 )
-
-# local .zshrc
-if [ -e "$HOME/.zshrc_local.zsh" ]
-then
-  source "$HOME/.zshrc_local.zsh"
-fi
 
 export LESS='-g -i -M -R -W -z-4 -j20'
 #  --no-init --quit-if-one-screen
@@ -166,27 +162,10 @@ fi
 
 
 #############
-#  enhancd  *
-#############
-if [[ -f $HOME/oss/enhancd/init.sh ]]; then
-  source $HOME/oss/enhancd/init.sh
-  export ENHANCD_FILTER=fzf
-fi
-
-#############
-#   nvim    *
-#############
-export VIMRUNTIME=/usr/local/share/nvim/runtime
-
-#############
 #  plugins  #
 #############
 if exists "zoxide"; then
-  eval "$(zoxide init zsh)"
-fi
-
-if exists "starship"; then
-  eval "$(starship init zsh)"
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 ###################
