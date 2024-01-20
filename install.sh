@@ -55,6 +55,7 @@ setup::misc() {
   install::default ".clang-format"
   install::default ".gitconfig"
   install::default ".tmux.conf"
+  install::default ".config/gitui/key_bindings.ron"
 }
 
 setup::plugins_mac() {
