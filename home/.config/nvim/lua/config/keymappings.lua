@@ -20,3 +20,19 @@ keyset('n', '<c-l>', ':wincmd l<cr>', noremap_default)
 
 keyset('n', '<C-p>', ':bp<cr>', noremap_default)
 keyset('n', '<C-n>', ':bn<cr>', noremap_default)
+
+-- toggleterm (more "lazy" set inside config)
+keyset("n", "<c-t>", [[<Cmd>exe v:count1 . "ToggleTerm"<CR>]], opts)
+keyset("i", "<c-t>", [[<Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>]], opts)
+keyset("n", "<leader>g", "<cmd>lua open_gitui()<CR>", {noremap = true, silent = true})
+
+-- lsps
+keyset("n", "gp", "<cmd>Lspsaga peek_definition<CR>")
+keyset("n", "K",  "<cmd>Lspsaga hover_doc<CR>")
+keyset('n', "gd", '<cmd>Lspsaga finder<CR>')
+keyset("n", "ga", "<cmd>Lspsaga code_action<CR>")
+keyset("n", "<leader>rn", "<cmd>Lspsaga rename<CR>")
+keyset("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>")
+keyset("n", "[e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+keyset("n", "]e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+keyset("n", "<leader>a", "<cmd> Lspsaga outline<CR>")
