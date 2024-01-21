@@ -74,12 +74,12 @@ export MYVIMRC="$HOME/.config/nvim/init.vim"
 export WORDCHARS=${WORDCHARS/\/}
 
 path=(
-  ~/.local/bin,
-  /usr/local/bin,
-  /usr/local/sbin,
+  ~/.local/bin
+  /usr/local/bin
+  /usr/local/sbin
   $path
-  ~/.cargo/bin,
-  ~/oss/bin,
+  ~/.cargo/bin
+  ~/oss/bin
 )
 
 export LESS='-g -i -M -R -W -z-4 -j20'
