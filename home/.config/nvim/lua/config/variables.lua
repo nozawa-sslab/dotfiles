@@ -18,6 +18,7 @@ local options = {
     rnu = true,
     nu = true,
     cursorline = true,
+    termguicolors = true,
     laststatus = 2,
     showmatch = true,
     mouse = 'a',
@@ -46,6 +47,7 @@ local map_pairs = {
 }
 
 vim.cmd("hi Search ctermbg=34")
+vim.cmd("hi Visual term=reverse cterm=reverse guibg=Grey")
 
 for index, pair in ipairs(map_pairs) do
     local vim_map = pair[2]
