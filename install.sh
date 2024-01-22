@@ -31,7 +31,6 @@ main() {
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
-  setup::neovim
   setup::gpg
   setup::misc
 
@@ -52,6 +51,7 @@ setup::shell() {
 #}
 
 setup::misc() {
+  install::default ".config/nvim"
   install::default ".clang-format"
   install::default ".gitconfig"
   install::default ".tmux.conf"
@@ -138,7 +138,6 @@ setup::oss() {
 }
 
 setup::neovim() {
-  install::default ".config/nvim"
   local nvim_dir=$OSS_DIR/neovim
   local old_pwd="$(pwd)"
   if ! command -v "nvim" &> /dev/null; then
