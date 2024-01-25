@@ -6,12 +6,12 @@ return {
     'tpope/vim-fugitive',
     'tpope/vim-obsession',
     {
-        "junegunn/fzf",
-        dependencies = { "junegunn/fzf.vim" },
-        build = ":call fzf#install()",
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
-            vim.g.fzf_action = { enter = 'tab split'}
-            vim.g.fzf_preview_window = {'right:50%', 'ctrl-/'}
+            -- calling `setup` is optional for customization
+            require("fzf-lua").setup({ 'telescope' })
         end
-    },
+    }
 }

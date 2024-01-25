@@ -5,9 +5,26 @@
 return {
     {
         "cocopon/iceberg.vim",
----        enabled = false,
+        enabled = false,
         config = function()
             vim.cmd("colorscheme iceberg")
+        end
+    },
+    {
+        'bluz71/vim-nightfly-colors',
+        enabled = true,
+        config = function()
+            -- Lua initialization file
+            local custom_highlight = vim.api.nvim_create_augroup("CustomHighlight", {})
+            vim.g.nightflyItalics = false
+            vim.api.nvim_create_autocmd("ColorScheme", {
+              pattern = "nightfly",
+              callback = function()
+                -- vim.api.nvim_set_hl(0, "Function", { fg = "#82aaff", bold = true })
+              end,
+              group = custom_highlight,
+            })
+            vim.cmd("colorscheme nightfly")
         end
     },
     {
@@ -22,6 +39,7 @@ return {
     },
     {
         'romgrk/barbar.nvim',
+        enabled = false,
         dependencies = {
           'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
           'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
@@ -33,6 +51,19 @@ return {
           -- insert_at_start = true,
           -- …etc.
         },
-        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+       version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
+    {
+        'akinsho/bufferline.nvim',
+        enabled = true,
+        version = "*",
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require('bufferline').setup {
+                options = {
+                    buffer_close_icon = ''
+                }
+            }
+        end
+    }
 }
