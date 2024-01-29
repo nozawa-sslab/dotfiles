@@ -91,7 +91,7 @@ end
 return {
   "neoclide/coc.nvim",
   branch = "release",
-  enabled = false,
+  enabled = true,
   config = function()
     setup()
   end

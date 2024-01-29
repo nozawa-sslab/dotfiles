@@ -64,7 +64,7 @@ end
 
 return {
   "williamboman/mason.nvim",
---  enabled = false,
+  enabled = false,
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
