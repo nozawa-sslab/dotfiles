@@ -31,7 +31,7 @@ main() {
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
-  setup::gpg
+#  setup::gpg
   setup::misc
 
   if [[ -n "$install_deps" ]]; then
@@ -133,23 +133,6 @@ setup::rust() {
 setup::oss() {
   if [ ! -d $OSS_DIR ]; then
     mkdir -p $OSS_DIR;
-  fi
-  setup::neovim
-}
-
-setup::neovim() {
-  local nvim_dir=$OSS_DIR/neovim
-  local old_pwd="$(pwd)"
-  if ! command -v "nvim" &> /dev/null; then
-    if [ ! -d nvim_dir ]; then
-      git clone https://github.com/neovim/neovim $nvim_dir
-    fi
-
-    cd "$nvim_dir"
-    git checkout stable
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
-    cd "$old_pwd"
   fi
 }
 
