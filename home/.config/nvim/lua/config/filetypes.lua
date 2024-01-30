@@ -1,15 +1,15 @@
 local filetypes = {
-    py   = { tabstop = 4, softtabstop = 4, shiftwidth = 4},
-    c    = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    cc   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    cpp  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    h    = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    hh   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    hpp  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    json = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    sh   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    zsh  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
-    lua  = { tabstop = 4, softtabstop = 4, shiftwidth = 4}
+  py   = { tabstop = 4, softtabstop = 4, shiftwidth = 4},
+  c    = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  cc   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  cpp  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  h    = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  hh   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  hpp  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  json = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  sh   = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  zsh  = { tabstop = 2, softtabstop = 2, shiftwidth = 2},
+  lua  = { tabstop = 2, softtabstop = 2, shiftwidth = 2}
 }
 
 local augroup_name = "fileTypeIndent"

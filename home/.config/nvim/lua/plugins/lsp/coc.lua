@@ -18,8 +18,8 @@ local function setup()
   local keyset = vim.keymap.set
   -- Autocomplete
   function _G.check_back_space()
-      local col = vim.fn.col('.') - 1
-      return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+    local col = vim.fn.col('.') - 1
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
   end
   
   -- Use Tab for trigger completion with characters ahead and navigate
@@ -54,14 +54,14 @@ local function setup()
 
   -- Use K to show documentation in preview window
   function _G.show_docs()
-      local cw = vim.fn.expand('<cword>')
-      if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-          vim.api.nvim_command('h ' .. cw)
-      elseif vim.api.nvim_eval('coc#rpc#ready()') then
-          vim.fn.CocActionAsync('doHover')
-      else
-          vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-      end
+    local cw = vim.fn.expand('<cword>')
+    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+      vim.api.nvim_command('h ' .. cw)
+    elseif vim.api.nvim_eval('coc#rpc#ready()') then
+      vim.fn.CocActionAsync('doHover')
+    else
+      vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+    end
   end
   keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
   
@@ -91,6 +91,18 @@ local function setup()
   -- NOTE: Please see `:h coc-status` for integrations with external plugins that
   -- provide custom statusline: lightline.vim, vim-airline
   vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
+  
+  -- Remap <C-f> and <C-b> to scroll float windows/popups
+  ---@diagnostic disable-next-line: redefined-local
+  local opts = {silent = true, nowait = true, expr = true}
+  keyset("n", "<C-d>", 'coc#float#has_scroll() ? coc#float#scroll(1, 1) : "<C-d>"', opts)
+  keyset("n", "<C-u>", 'coc#float#has_scroll() ? coc#float#scroll(0, 1) : "<C-u>"', opts)
+  keyset("i", "<C-d>",
+         'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1, 1)<cr>" : "<C-d>"', opts)
+  keyset("i", "<C-u>",
+         'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0, 1)<cr>" : "<C-u>"', opts)
+  keyset("v", "<C-d>", 'coc#float#has_scroll() ? coc#float#scroll(1, 1) : "<C-d>"', opts)
+  keyset("v", "<C-u>", 'coc#float#has_scroll() ? coc#float#scroll(0, 1) : "<C-u>"', opts)
 end
 
 return {
