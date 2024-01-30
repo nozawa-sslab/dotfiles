@@ -64,6 +64,7 @@ local function setup()
       end
   end
   keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
+  
 
   -- Set Commands
   -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
@@ -73,6 +74,10 @@ local function setup()
     command = "silent call CocActionAsync('highlight')",
     desc = "Highlight symbol under cursor on CursorHold"
   })
+
+  -- Symbol renaming
+  keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+
   -- Add `:Format` command to format current buffer
   vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
 
