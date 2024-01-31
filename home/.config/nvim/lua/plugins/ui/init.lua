@@ -4,30 +4,6 @@
 
 return {
   {
-    "cocopon/iceberg.vim",
-    enabled = false,
-    config = function()
-        vim.cmd("colorscheme iceberg")
-    end
-  },
-  {
-    'bluz71/vim-nightfly-colors',
-    enabled = true,
-    config = function()
-      -- Lua initialization file
-      local custom_highlight = vim.api.nvim_create_augroup("CustomHighlight", {})
-      vim.g.nightflyItalics = false
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "nightfly",
-        callback = function()
-         -- vim.api.nvim_set_hl(0, "Function", { fg = "#82aaff", bold = true })
-        end,
-        group = custom_highlight,
-      })
-      vim.cmd("colorscheme nightfly")
-    end
-  },
-  {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     ---enabled = false,
