@@ -19,9 +19,8 @@
   "vim-commentary": { "branch": "master", "commit": "f67e3e67ea516755005e6cccb178bc8439c6d402" },
   "vim-fugitive": { "branch": "master", "commit": "f116dcc8e21021e6fbfb6b0a9f8f7b9566d933f4" },
   "vim-gitgutter": { "branch": "main", "commit": "67ef116100b40f9ca128196504a2e0bc0a2753b0" },
-  "vim-nightfly-colors": { "branch": "master", "commit": "050e56f09233a7b00884fe83cfc5ecfd9129791c" },
+  "vim-moonfly-colors": { "branch": "master", "commit": "a1a0dfc621f41ffb4e98a813e021ba41e8199adc" },
   "vim-obsession": { "branch": "master", "commit": "fe9d3e1a9a50171e7d316a52e1e56d868e4c1fe5" },
-  "vim-tmux-clipboard": { "branch": "master", "commit": "d4774dc7dfdd4b8a60613355ed32e6a1c18220cf" },
   "vim-tmux-focus-events": { "branch": "master", "commit": "b1330e04ffb95ede8e02b2f7df1f238190c67056" },
   "vim-tmux-navigator": { "branch": "master", "commit": "38b1d0402c4600543281dc85b3f51884205674b6" }
 }

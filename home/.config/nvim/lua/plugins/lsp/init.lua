@@ -5,7 +5,7 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons'
     },
-    enabled = true,
+    enabled = false,
     config = function()
       vim.api.nvim_create_autocmd("CursorHold", {
         command = "Lspsaga show_cursor_diagnostics ++unfocus",
