@@ -14,7 +14,6 @@ return {
       require("fzf-lua").setup({ 'telescope' })
     end
   },
-  'roxma/vim-tmux-clipboard',
   'tmux-plugins/vim-tmux-focus-events',
   {
     "christoomey/vim-tmux-navigator",
