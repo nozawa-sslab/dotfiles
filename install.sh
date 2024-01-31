@@ -67,8 +67,6 @@ setup::plugins_mac() {
   brew update
   brew install \
     cmake \
-    fd \
-    ccls \
     tmux
 
   # Required packages for neovim compile. There are some duplicates with above,
@@ -89,8 +87,6 @@ setup::plugins_ubuntu() {
       build-essential \
       cmake \
       git \
-      fd-find \
-      ccls \
       tmux
 
   # Required packages for neovim compile. There are some duplicates with above,

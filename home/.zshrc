@@ -30,6 +30,7 @@ alias clip='(){cat $1 | pbcopy}'
 alias pyb='python -m compileall'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+function mkcd() { mkdir "$1"; cd "$1"; }
 
 # Neovim
 alias vi='nvim'
@@ -207,6 +208,8 @@ zinit light asdf-vm/asdf
 # Load powerlevel10k theme
 zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # fzf
 zinit ice atclone"./install"
@@ -240,5 +243,6 @@ zinit light dandavison/delta
 zinit ice from"gh-r" as"program" mv"nvim* -> nvim" pick"nvim/bin/nvim"
 zinit light neovim/neovim
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# fd
+zinit ice from"gh-r" as"program" mv"fd* -> fd" pick"fd/fd"
+zinit light sharkdp/fd
