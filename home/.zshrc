@@ -28,8 +28,6 @@ alias vrc='nvim ~/.vimrc'
 alias rel='exec $SHELL -l'
 alias clip='(){cat $1 | pbcopy}'
 alias pyb='python -m compileall'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
 function mkcd() { mkdir "$1"; cd "$1"; }
 
 # Neovim
