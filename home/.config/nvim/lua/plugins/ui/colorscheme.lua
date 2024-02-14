@@ -39,6 +39,11 @@ return {
         end,
         group = custom_highlight,
       })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          vim.api.nvim_set_hl(0, "NormalFloat", {fg = "#c6c6c6", bg = "#1e2132"})
+        end
+      })
       vim.cmd("colorscheme moonfly")
     end
   },
