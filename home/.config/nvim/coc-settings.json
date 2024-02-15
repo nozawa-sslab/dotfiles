@@ -1,0 +1,12 @@
+{
+  "hover.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "diagnostic.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "python.formatting.provider": "yapf",
+  "python.linting.pylintEnabled": true,
+}
