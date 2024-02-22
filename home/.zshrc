@@ -123,9 +123,9 @@ if [[ -f ~/.fzf.zsh ]]; then
   source ~/.fzf.zsh
   
   if type "fzf" > /dev/null 2>&1; then
+          export FZF_DEFAULT_COMMAND='fd --type f'
           export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --preview "bat --color=always --style=header,grid --line-range :100 {}"'
-          export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-          export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+          export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
           export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
   fi
 
