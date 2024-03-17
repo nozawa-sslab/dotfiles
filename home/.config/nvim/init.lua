@@ -13,5 +13,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
+vim.api.nvim_command('filetype plugin indent on')
+vim.api.nvim_command('syntax on')
+
 require("lazy").setup("plugins")
 require("config")
