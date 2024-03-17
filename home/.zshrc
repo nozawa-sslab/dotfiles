@@ -74,11 +74,11 @@ export WORDCHARS=${WORDCHARS/\/}
 
 path=(
   ~/.local/bin
-  /usr/local/bin
-  /usr/local/sbin
   $path
   ~/.cargo/bin
   ~/oss/bin
+  /usr/local/bin
+  /usr/local/sbin
 )
 
 export LESS='-g -i -M -R -W -z-4 -j20'
