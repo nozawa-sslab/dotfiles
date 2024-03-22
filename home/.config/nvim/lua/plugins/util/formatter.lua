@@ -6,6 +6,7 @@ set('n', '<leader>F', ':FormatWrite<CR>')
 return {
   {
     'mhartington/formatter.nvim',
+    enabled = false,
     config = function()
       -- Utilities for creating configurations
       local util = require "formatter.util"
@@ -58,6 +59,9 @@ return {
           },
           python = {
             require("formatter.filetypes.python").yapf,
+          },
+          rust = {
+            require("formatter.filetypes.rust").rustfmt,
           },
           -- Use the special "*" filetype for defining formatter configurations on
           -- any filetype

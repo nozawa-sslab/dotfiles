@@ -9,7 +9,11 @@ return {
     ---enabled = false,
     config = function()
       require('lualine').setup {
-       options = { theme = 'material' }
+       options = { theme = 'material' },
+       sections = {
+         lualine_y = { "progress", "location" },
+         lualine_z = { "os.date('%H:%M')" },
+       }
       }
     end
   },

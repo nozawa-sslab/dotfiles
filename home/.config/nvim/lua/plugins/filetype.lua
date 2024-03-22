@@ -1,6 +1,6 @@
 return {
   {
     'rust-lang/rust.vim',
-    ft = 'rs'
+    ft = 'rust'
   }
 }

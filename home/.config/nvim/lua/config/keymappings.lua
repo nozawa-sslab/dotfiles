@@ -33,6 +33,9 @@ keyset('n', '<leader>fzb', ':FzfLua buffers<cr>', noremap_default)
 keyset('n', '<leader>fl', ':FzfLua lines<cr>', noremap_default)
 keyset('n', '<leader>;', ':FzfLua commands<cr>', noremap_default)
 
+-- nvim-tree
+keyset("n", "<leader>tn", ":NvimTreeToggle<CR>", noremap_default)
+
 -- lsps
 -- keyset("n", "gp", "<cmd>Lspsaga peek_definition<CR>")
 -- keyset("n", "K",  "<cmd>Lspsaga hover_doc<CR>")
