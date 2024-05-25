@@ -214,7 +214,7 @@ zinit ice atclone"./install"
 zinit light junegunn/fzf
 
 # ripgrep
-zinit ice from"gh-r" as"program"
+zinit ice from"gh-r" as"program" mv"ripgrep* -> rg" pick"rg/rg"
 zinit light BurntSushi/ripgrep
 
 # bat
