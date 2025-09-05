@@ -14,8 +14,6 @@ local options = {
 
   --- UI
   wildmenu = true,
-  rnu = true,
-  nu = true,
   cursorline = true,
   termguicolors = true,
   laststatus = 2,
