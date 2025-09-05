@@ -40,6 +40,7 @@ alias gs='git status'
 ##############
 # Completion #
 ##############
+fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 
 #############
@@ -200,9 +201,6 @@ zinit light zsh-users/zsh-autosuggestions
 bindkey '^ ' autosuggest-accept
 zinit light zsh-users/zsh-completions
 
-zinit ice wait lucid
-zinit light asdf-vm/asdf
-
 # Load powerlevel10k theme
 zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
@@ -210,8 +208,13 @@ zinit light romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # fzf
-zinit ice atclone"./install"
-zinit light junegunn/fzf
+zinit wait"0c" lucid light-mode for \
+  id-as'fzf' \
+    as"program" \
+    from"gh-r" \
+    nocompile \
+    atload"source <(fzf --zsh)" \
+    @junegunn/fzf
 
 # ripgrep
 zinit ice from"gh-r" as"program" mv"ripgrep* -> rg" pick"rg/rg"
