@@ -247,3 +247,8 @@ zinit light neovim/neovim
 # fd
 zinit ice from"gh-r" as"program" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
