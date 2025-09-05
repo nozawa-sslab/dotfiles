@@ -9,4 +9,6 @@
   },
   "python.formatting.provider": "yapf",
   "python.linting.pylintEnabled": true,
+  "inlayHint.enable": false,
+  "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd"
 }
