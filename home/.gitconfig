@@ -35,3 +35,5 @@
 [delta]
         side-by-side = true
         line-nubers = true
+[init]
+	defaultBranch = main
