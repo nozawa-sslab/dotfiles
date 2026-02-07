@@ -230,7 +230,7 @@ zinit light lsd-rs/lsd
 
 # gitui
 zinit ice from"gh-r" as"program"
-zinit light extrawurst/gitui
+zinit light gitui-org/gitui
 
 # zoxide
 zinit ice from"gh-r" as"program"
