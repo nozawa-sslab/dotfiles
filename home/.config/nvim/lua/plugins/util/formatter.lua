@@ -58,7 +58,7 @@ return {
             require("formatter.filetypes.cpp").clangformat,
           },
           python = {
-            require("formatter.filetypes.python").yapf,
+            require("formatter.filetypes.python").black,
           },
           rust = {
             require("formatter.filetypes.rust").rustfmt,
